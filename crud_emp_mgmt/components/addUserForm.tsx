@@ -20,7 +20,7 @@ export default function AddUserForm() {
     console.log(formData);
   };
 
-  if (Object.keys(formData).length > 0) return <Bug message={"Error"}></Bug>;
+  // if (Object.keys(formData).length > 0) return <Bug message={"Error"}></Bug>;
 
   return (
     <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
@@ -66,7 +66,7 @@ export default function AddUserForm() {
           onChange={setFormData}
           name="date"
           className="border px-5 py-3 focus:outline-none rounded-md"
-          placeholder="Salary"
+          placeholder="Date"
         />
       </div>
 
