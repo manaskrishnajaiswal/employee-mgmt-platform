@@ -29,7 +29,7 @@ export async function putUser(req, res) {
   try {
     const { userId } = req.query;
     const formData = req.body;
-    console.log(formData);
+    // console.log(formData);
 
     const user = await Users.findById(userId);
 
