@@ -29,12 +29,13 @@ export async function putUser(req, res) {
   try {
     const { userId } = req.query;
     const formData = req.body;
+    console.log(formData);
 
     const user = await Users.findById(userId);
 
     if (user) {
       user.name = formData.name || user.name;
-      user.avatar = formData.email || user.avatar;
+      user.avatar = formData.avatar || user.avatar;
       user.email = formData.email || user.email;
       user.salary = formData.salary || user.salary;
       user.date = formData.date || user.date;
