@@ -25,7 +25,7 @@ export async function postUser(req, res) {
   }
 }
 
-// put : http://localhost:3000/api/users/1
+// put : http://localhost:3000/api/users?userId=63fb7d9f41bf431bcd75a99f
 export async function putUser(req, res) {
   try {
     const { userId } = req.query;
@@ -54,9 +54,50 @@ export async function putUser(req, res) {
       });
     } else {
       res.status(404);
-      throw new Error("User not found");
+      res.json({ message: "User not found" });
     }
   } catch (error) {
     res.status(404).json({ error: "Error While Updating the Data...!" });
+  }
+}
+
+// delete : http://localhost:3000/api/users
+export async function deleteUser(req, res) {
+  try {
+    const { userId } = req.query;
+    const user = await Users.findById(userId);
+    if (user) {
+      await user.remove();
+      res.status(200).json({ message: "Employee data deleted successfully" });
+    } else {
+      res.status(404);
+      res.json({ message: "User not found" });
+    }
+  } catch (error) {
+    return res.status(404).json({ error });
+  }
+}
+
+// get : http://localhost:3000/api/users/userId
+export async function getSingleUser(req, res) {
+  try {
+    const user = await Users.findById(req.query.userId);
+    if (user) {
+      res.status(200).json({
+        message: "Employee data found successfully",
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        email: user.email,
+        salary: user.salary,
+        date: user.date,
+        status: user.status,
+      });
+    } else {
+      res.status(404);
+      res.json({ message: "User not found" });
+    }
+  } catch (error) {
+    return res.status(404).json({ error });
   }
 }
