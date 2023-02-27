@@ -1,12 +1,13 @@
 import UpdateUserForm from "./updateUserForm";
 import AddUserForm from "./addUserForm";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Form() {
-  const flag = true;
+  const formId = useSelector((state) => state.app.client.formId);
 
   return (
     <div className="container mx-auto py-5">
-      {flag ? <AddUserForm /> : <UpdateUserForm />}
+      {formId ? <UpdateUserForm /> : <AddUserForm />}
     </div>
   );
 }
