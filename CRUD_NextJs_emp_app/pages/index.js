@@ -11,11 +11,14 @@ import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const options = {
-    Option1: "Value 1",
-    Option2: "Value 2",
-    Option3: "Value 3",
+  const column_type_options = {
+    Option1_number: "Number",
+    Option2_string: "String",
+    Option3_date: "Date",
+    Option4_dropdown: "Dropdown",
   };
+  const columnType = useSelector((state) => state.app.client.columnType);
+  console.log(columnType);
   const visible = useSelector((state) => state.app.client.toggleForm);
   const deleteId = useSelector((state) => state.app.client.deleteId);
   const queryclient = useQueryClient();
@@ -97,10 +100,10 @@ export default function Home() {
             <tbody className="bg-gray-200">
               <tr className="bg-gray-50 text-center">
                 <td className="px-16 py-2">
-                  <Dropdown options={options} />
+                  <Dropdown column_type_options={column_type_options} />
                 </td>
                 <td className="px-16 py-2">
-                  <Dropdown options={options} />
+                  <Dropdown column_type_options={column_type_options} />
                 </td>
               </tr>
             </tbody>
@@ -119,7 +122,7 @@ export default function Home() {
             <tbody className="bg-gray-200">
               <tr className="bg-gray-50 text-center">
                 <td className="px-16 py-2 flex flex-row items-center">
-                  <Dropdown options={options} />
+                  <Dropdown column_type_options={column_type_options} />
                   <button
                     onClick={handler}
                     className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
@@ -130,6 +133,23 @@ export default function Home() {
                     </span>
                   </button>
                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div className="container mx-auto">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Output Form</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-gray-200">
+              <tr className="bg-gray-50 text-center">
+                <td className="px-16 py-2"></td>
               </tr>
             </tbody>
           </table>

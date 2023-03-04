@@ -9,3 +9,7 @@ export const updateUserReducer = (state, action) => {
 export const deleteUserReducer = (state, action) => {
   state.client.deleteId = action.payload;
 };
+
+export const columnTypeReducer = (state, action) => {
+  state.client.columnType = action.payload;
+};

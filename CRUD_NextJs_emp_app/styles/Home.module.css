@@ -138,6 +138,7 @@
 .dropdown__option {
   padding: 10px;
   cursor: pointer;
+  text-align: left;
 }
 
 .dropdown__option:hover,
