@@ -11,8 +11,11 @@ import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const options = ["Option 1", "Option 2", "Option 3"];
-
+  const options = {
+    Option1: "Value 1",
+    Option2: "Value 2",
+    Option3: "Value 3",
+  };
   const visible = useSelector((state) => state.app.client.toggleForm);
   const deleteId = useSelector((state) => state.app.client.deleteId);
   const queryclient = useQueryClient();
@@ -78,10 +81,50 @@ export default function Home() {
         <div className="container mx-auto">
           <Table></Table>
         </div>
-
-        <>
-          <Dropdown options={options} />
-        </>
+        <br />
+        <div className="container mx-auto">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Column Name</span>
+                </th>
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Column Type</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-gray-200">
+              <tr className="bg-gray-50 text-center">
+                <td className="px-16 py-2">
+                  <Dropdown options={options} />
+                </td>
+                <td className="px-16 py-2">
+                  <Dropdown options={options} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div className="container mx-auto">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Column Data</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-gray-200">
+              <tr className="bg-gray-50 text-center">
+                <td className="px-16 py-2">
+                  <Dropdown options={options} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </section>
   );

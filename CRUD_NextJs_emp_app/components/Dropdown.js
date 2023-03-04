@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 
 function Dropdown(props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(props.options[0]);
+  const [selectedOption, setSelectedOption] = useState(props.options.Option1);
 
   function handleOptionClick(option) {
     setSelectedOption(option);
@@ -17,22 +17,18 @@ function Dropdown(props) {
   return (
     <div className={styles.dropdown}>
       <div className={styles.dropdown__header} onClick={toggleDropdown}>
-        {selectedOption}
+        {selectedOption}&nbsp;&nbsp;
         <i className={`fa fa-chevron-${isOpen ? "up" : "down"}`}></i>
       </div>
       {isOpen && (
         <div className={styles.dropdown__options}>
-          {props.options.map((option) => (
+          {Object.entries(props.options).map(([key, value]) => (
             <div
-              key={option}
-              className={`${styles.dropdown__option} ${
-                option === selectedOption
-                  ? styles["dropdown__option--selected"]
-                  : ""
-              }`}
-              onClick={() => handleOptionClick(option)}
+              key={key}
+              className={styles.dropdown__option}
+              onClick={() => handleOptionClick(value)}
             >
-              {option}
+              {value}
             </div>
           ))}
         </div>
