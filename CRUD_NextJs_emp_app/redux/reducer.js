@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-
 import {
   columnTypeReducer,
   deleteUserReducer,
@@ -35,5 +33,4 @@ export const {
   deleteAction,
   columnTypeAction,
 } = ReducerSlice.actions;
-
 export default ReducerSlice.reducer;

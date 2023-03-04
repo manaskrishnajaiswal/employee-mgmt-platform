@@ -11,13 +11,14 @@ import { useQueryClient } from "react-query";
 import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 import { BiPlus } from "react-icons/bi";
+import { postcustomdatacreate } from "../actions/customActions";
 
 export default function Home() {
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
   const [outputForm, setOutputForm] = useState([
-    { colName: "dsfrt", colData: "3", colType: "Number" },
-    { colName: "dsfrt", colData: "3", colType: "Number" },
+    { colName: "first", colData: "manas", colType: "Text" },
+    { colName: "last", colData: "jaiswal", colType: "Text" },
   ]);
 
   const column_type_options = {
@@ -62,11 +63,25 @@ export default function Home() {
     setColumnName("");
     setColumnData("");
   };
+
   const handleDataChange = (index, event) => {
     const newItems = [...outputForm];
     newItems[index].colData = event.target.value;
     setOutputForm(newItems);
   };
+
+  const outputFormSubmitHandler = (e) => {
+    e.preventDefault();
+    const formObject = {};
+    outputForm.forEach((item) => {
+      formObject[item.colName] = item.colData;
+    });
+    const model = {
+      data: formObject,
+    };
+    dispatch(postcustomdatacreate(model));
+  };
+
   console.log(outputForm);
   return (
     <section>
@@ -233,7 +248,10 @@ export default function Home() {
               ))} */}
               <tr>
                 <td>
-                  <Form className="grid lg:grid-cols-4 w-4/8 gap-4">
+                  <Form
+                    className="grid lg:grid-cols-4 w-4/8 gap-4"
+                    onSubmit={outputFormSubmitHandler}
+                  >
                     {outputForm.map((data, index) => (
                       <div className="mx-auto my-4" key={index}>
                         {(data.colType === "Number" ||
