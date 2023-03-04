@@ -12,8 +12,13 @@ import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [columnData, setColumnData] = useState("");
   const [columnName, setColumnName] = useState("");
+  const [columnData, setColumnData] = useState("");
+  const [outputForm, setOutputForm] = useState([
+    { colName: "dsfrt", colData: "3" },
+    { colName: "dsfrt", colData: "3" },
+  ]);
+
   const column_type_options = {
     Option1_number: "Number",
     Option2_string: "Text",
@@ -41,12 +46,17 @@ export default function Home() {
     }
   };
 
-  const canclehandler = async () => {
+  const cancelhandler = async () => {
     console.log("cancel");
     await dispatch(deleteAction(null));
   };
 
-  const columnDatahandler = async () => {};
+  const columnDatahandler = async () => {
+    outputForm.push({ colName: columnName, colData: columnData });
+    setOutputForm(outputForm);
+    setColumnName("");
+    setColumnData("");
+  };
 
   return (
     <section>
@@ -80,7 +90,7 @@ export default function Home() {
               </span>
             </button>
           </div>
-          {deleteId ? DeleteComponent({ deletehandler, canclehandler }) : <></>}
+          {deleteId ? DeleteComponent({ deletehandler, cancelhandler }) : <></>}
         </div>
 
         {/* collapsable form */}
@@ -108,10 +118,13 @@ export default function Home() {
                 <td className="px-16 py-2">
                   <input
                     type="text"
-                    onChange={setColumnName}
+                    onChange={(e) => setColumnName(e.target.value)}
+                    value={columnName}
                     name="columnName"
                     className="border px-5 py-3 focus:outline-none rounded-md"
                     placeholder="Enter Column Name"
+                    required
+                    autoComplete="none"
                   />
                 </td>
                 <td className="px-16 py-2">
@@ -150,6 +163,8 @@ export default function Home() {
                           placeholder={`Enter ${columnType}`}
                           value={columnData}
                           onChange={(e) => setColumnData(e.target.value)}
+                          required
+                          autoComplete="none"
                         ></Form.Control>
                       </Form.Group>
                     </Form>
@@ -168,6 +183,8 @@ export default function Home() {
                           placeholder={`Enter ${columnType}`}
                           value={columnData}
                           onChange={(e) => setColumnData(e.target.value)}
+                          required
+                          autoComplete="none"
                         ></Form.Control>
                       </Form.Group>
                     </Form>
@@ -197,8 +214,15 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="bg-gray-200">
-              <tr className="bg-gray-50 text-center">
-                <td className="px-16 py-2"></td>
+              {outputForm.map((data, index) => (
+                <tr key={index}>
+                  <td>
+                    {data.colName}-{data.colData}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td></td>
               </tr>
             </tbody>
           </table>
@@ -208,7 +232,7 @@ export default function Home() {
   );
 }
 
-function DeleteComponent({ deletehandler, canclehandler }) {
+function DeleteComponent({ deletehandler, cancelhandler }) {
   return (
     <div className="flex gap-5">
       <button>Are you sure?</button>
@@ -222,7 +246,7 @@ function DeleteComponent({ deletehandler, canclehandler }) {
         </span>
       </button>
       <button
-        onClick={canclehandler}
+        onClick={cancelhandler}
         className="flex bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gree-500 hover:border-green-500 hover:text-gray-50"
       >
         No{" "}
