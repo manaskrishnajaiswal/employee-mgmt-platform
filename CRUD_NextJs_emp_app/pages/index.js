@@ -13,6 +13,7 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const [columnData, setColumnData] = useState("");
+  const [columnName, setColumnName] = useState("");
   const column_type_options = {
     Option1_number: "Number",
     Option2_string: "Text",
@@ -105,7 +106,13 @@ export default function Home() {
             <tbody className="bg-gray-200">
               <tr className="bg-gray-50 text-center">
                 <td className="px-16 py-2">
-                  <Dropdown column_type_options={column_type_options} />
+                  <input
+                    type="text"
+                    onChange={setColumnName}
+                    name="columnName"
+                    className="border px-5 py-3 focus:outline-none rounded-md"
+                    placeholder="Enter Column Name"
+                  />
                 </td>
                 <td className="px-16 py-2">
                   <Dropdown column_type_options={column_type_options} />
