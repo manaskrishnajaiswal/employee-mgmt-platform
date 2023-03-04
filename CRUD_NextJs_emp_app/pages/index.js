@@ -118,8 +118,17 @@ export default function Home() {
             </thead>
             <tbody className="bg-gray-200">
               <tr className="bg-gray-50 text-center">
-                <td className="px-16 py-2">
+                <td className="px-16 py-2 flex flex-row items-center">
                   <Dropdown options={options} />
+                  <button
+                    onClick={handler}
+                    className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
+                  >
+                    {" "}
+                    <span className="px-1">
+                      <BiUserPlus size={23}></BiUserPlus>
+                    </span>
+                  </button>
                 </td>
               </tr>
             </tbody>
