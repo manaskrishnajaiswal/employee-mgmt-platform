@@ -1,7 +1,8 @@
 import Head from "next/head";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 import Table from "../components/table";
-import Form from "../components/form";
+import UserForm from "../components/form";
+import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction, deleteAction } from "../redux/reducer";
@@ -11,11 +12,13 @@ import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const [columnData, setColumnData] = useState("");
   const column_type_options = {
     Option1_number: "Number",
-    Option2_string: "String",
-    Option3_date: "Date",
-    Option4_dropdown: "Dropdown",
+    Option2_string: "Text",
+    Option3_textarea: "Textarea",
+    Option4_date: "Date",
+    Option5_dropdown: "Dropdown",
   };
   const columnType = useSelector((state) => state.app.client.columnType);
   console.log(columnType);
@@ -78,7 +81,7 @@ export default function Home() {
         </div>
 
         {/* collapsable form */}
-        {visible ? <Form></Form> : <></>}
+        {visible ? <UserForm></UserForm> : <></>}
 
         {/* table */}
         <div className="container mx-auto">
@@ -120,12 +123,50 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="bg-gray-200">
-              <tr className="bg-gray-50 text-center">
-                <td className="px-16 py-2 flex flex-row items-center">
-                  <Dropdown column_type_options={column_type_options} />
+              <tr className="bg-gray-50 text-left">
+                <td className="mx-64 px-64 py-4 flex flex-row items-center">
+                  {/* <Dropdown column_type_options={column_type_options} /> */}
+                  {(columnType === "Number" ||
+                    columnType === "Text" ||
+                    columnType === "Date") && (
+                    <Form>
+                      <Form.Group controlId="name">
+                        <Form.Label>
+                          <strong>Enter {columnType}</strong>
+                        </Form.Label>
+                        <br></br>
+                        <Form.Control
+                          className="px-2 py-2"
+                          type={columnType}
+                          placeholder={`Enter ${columnType}`}
+                          value={columnData}
+                          onChange={(e) => setColumnData(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Form>
+                  )}
+                  {columnType === "Textarea" && (
+                    <Form>
+                      <Form.Group controlId="name">
+                        <Form.Label className="my-2">
+                          <strong>Enter {columnType}</strong>
+                        </Form.Label>
+                        <br></br>
+                        <Form.Control
+                          className="px-2 py-2"
+                          as="textarea"
+                          rows={3}
+                          placeholder={`Enter ${columnType}`}
+                          value={columnData}
+                          onChange={(e) => setColumnData(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Form>
+                  )}
+
                   <button
                     onClick={handler}
-                    className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
+                    className="flex bg-indigo-500 text-white mx-4 px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
                   >
                     {" "}
                     <span className="px-1">
