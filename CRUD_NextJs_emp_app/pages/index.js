@@ -82,7 +82,7 @@ export default function Home() {
     dispatch(postcustomdatacreate(model));
   };
 
-  console.log(outputForm);
+  // console.log(outputForm);
   return (
     <section>
       <Head>
