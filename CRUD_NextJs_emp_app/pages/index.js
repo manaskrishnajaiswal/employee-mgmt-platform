@@ -45,6 +45,8 @@ export default function Home() {
     await dispatch(deleteAction(null));
   };
 
+  const columnDatahandler = async () => {};
+
   return (
     <section>
       <Head>
@@ -163,9 +165,8 @@ export default function Home() {
                       </Form.Group>
                     </Form>
                   )}
-
                   <button
-                    onClick={handler}
+                    onClick={columnDatahandler}
                     className="flex bg-indigo-500 text-white mx-4 px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
                   >
                     {" "}
