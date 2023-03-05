@@ -58,3 +58,5 @@ export async function deleteUser(userId) {
   const json = await response.json();
   return json;
 }
+
+//Get Schema From Data helper function
