@@ -17,10 +17,7 @@ export default function Home() {
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
   console.log(columnData);
-  const [outputForm, setOutputForm] = useState([
-    { colName: "first", colData: "manas", colType: "Text" },
-    { colName: "last", colData: "jaiswal", colType: "Text" },
-  ]);
+  const [outputForm, setOutputForm] = useState([]);
 
   const column_type_options = {
     Option1_number: "Number",
@@ -98,6 +95,7 @@ export default function Home() {
       formObject[item.colName] = item.colData;
     });
     dispatch(postcustomdatacreate(formObject));
+    setOutputForm([]);
   };
 
   console.log(outputForm);
@@ -247,90 +245,86 @@ export default function Home() {
           </table>
         </div>
         <br />
-        <div className="container mx-auto">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-800">
-                <th className="px-16 py-2">
-                  <span className="text-gray-200">Output Form</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-gray-200">
-              {/* {outputForm.map((data, index) => (
-                <tr key={index}>
+
+        {outputForm.length !== 0 && (
+          <div className="container mx-auto">
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-gray-800">
+                  <th className="px-16 py-2">
+                    <span className="text-gray-200">Output Form</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-gray-200">
+                <tr>
                   <td>
-                    {data.colName}-{data.colData}
+                    <Form
+                      className="grid lg:grid-cols-4 w-4/8 gap-4"
+                      onSubmit={outputFormSubmitHandler}
+                    >
+                      {outputForm.map((data, index) => (
+                        <div className="mx-auto my-4" key={index}>
+                          {(data.colType === "Number" ||
+                            data.colType === "Text" ||
+                            data.colType === "Date") && (
+                            <Form.Group>
+                              <Form.Label>
+                                <strong>{data.colName}</strong>
+                              </Form.Label>
+                              <br></br>
+                              <Form.Control
+                                className="px-2 py-2"
+                                type={data.colType}
+                                placeholder={`Enter ${data.colType}`}
+                                value={data.colData}
+                                onChange={(event) =>
+                                  handleDataChange(index, event)
+                                }
+                                required
+                                autoComplete="none"
+                              ></Form.Control>
+                            </Form.Group>
+                          )}
+                          {data.colType === "Textarea" && (
+                            <Form.Group>
+                              <Form.Label>
+                                <strong>{data.colName}</strong>
+                              </Form.Label>
+                              <br></br>
+                              <Form.Control
+                                className="px-2 py-2"
+                                as="textarea"
+                                rows={3}
+                                placeholder={`Enter ${data.colType}`}
+                                value={data.colData}
+                                onChange={(event) =>
+                                  handleDataChange(index, event)
+                                }
+                                required
+                                autoComplete="none"
+                              ></Form.Control>
+                            </Form.Group>
+                          )}
+                        </div>
+                      ))}
+                      <br></br>
+                      <button
+                        type="submit"
+                        className="mx-20 my-4 flex justify-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
+                      >
+                        <span className="px-1 my-auto">Add</span>
+                        <span className="px-1 my-auto">
+                          <BiPlus size={24}></BiPlus>
+                        </span>
+                      </button>
+                    </Form>
                   </td>
                 </tr>
-              ))} */}
-              <tr>
-                <td>
-                  <Form
-                    className="grid lg:grid-cols-4 w-4/8 gap-4"
-                    onSubmit={outputFormSubmitHandler}
-                  >
-                    {outputForm.map((data, index) => (
-                      <div className="mx-auto my-4" key={index}>
-                        {(data.colType === "Number" ||
-                          data.colType === "Text" ||
-                          data.colType === "Date") && (
-                          <Form.Group>
-                            <Form.Label>
-                              <strong>{data.colName}</strong>
-                            </Form.Label>
-                            <br></br>
-                            <Form.Control
-                              className="px-2 py-2"
-                              type={data.colType}
-                              placeholder={`Enter ${data.colType}`}
-                              value={data.colData}
-                              onChange={(event) =>
-                                handleDataChange(index, event)
-                              }
-                              required
-                              autoComplete="none"
-                            ></Form.Control>
-                          </Form.Group>
-                        )}
-                        {data.colType === "Textarea" && (
-                          <Form.Group>
-                            <Form.Label>
-                              <strong>{data.colName}</strong>
-                            </Form.Label>
-                            <br></br>
-                            <Form.Control
-                              className="px-2 py-2"
-                              as="textarea"
-                              rows={3}
-                              placeholder={`Enter ${data.colType}`}
-                              value={data.colData}
-                              onChange={(event) =>
-                                handleDataChange(index, event)
-                              }
-                              required
-                              autoComplete="none"
-                            ></Form.Control>
-                          </Form.Group>
-                        )}
-                      </div>
-                    ))}
-                    <br></br>
-                    <button
-                      type="submit"
-                      className="mx-20 my-4 flex justify-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
-                    >
-                      <span className="px-1 my-auto">Add</span>
-                      <span className="px-1 my-auto">
-                        <BiPlus size={24}></BiPlus>
-                      </span>
-                    </button>
-                  </Form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+              </tbody>
+            </table>
+          </div>
+        )}
       </main>
     </section>
   );
