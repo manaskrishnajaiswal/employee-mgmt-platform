@@ -1,19 +1,21 @@
-import DBCustoms from "../models/dbCustomModel";
+import DBCustom from "../models/dbCustomModel";
 import getSchemaFromData from "../lib/getSchemaFromData";
 
-// post : http://localhost:3000/api/custom
+// post : http://localhost:3000/api/dbcustom
 export async function postDBCustomData(req, res) {
   try {
     const outFormData = req.body;
+    const currentdate = new Date();
+    console.log(currentdate);
+    outFormData.createdAt = currentdate;
     console.log(outFormData);
     const modDBCustomSchema = await getSchemaFromData(outFormData);
-    // const newDBCustomModel = DBCustoms.discriminator(
-    //   "DBCustoms",
-    //   modDBCustomSchema
-    // );
-    // const updatedDBCustomData = await new newDBCustomModel(outFormData);
-    const updatedDBCustomData = await new DBCustoms(modDBCustomSchema);
-    const result = await updatedDBCustomData.save();
+    console.log(modDBCustomSchema);
+    const newDBCustomData = new DBCustom(outFormData);
+    console.log(newDBCustomData);
+    newDBCustomData.schema = modDBCustomSchema;
+    // newDBCustomData.createdAt = new Date();
+    const result = await newDBCustomData.save();
     console.log(result);
     res.status(200).send({ result, message: "Data created successfully" });
   } catch (error) {

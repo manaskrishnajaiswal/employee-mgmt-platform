@@ -1,7 +1,7 @@
-import { Schema, models, model } from "mongoose";
-const dbCustomSchema = new Schema({
-  // define any default fields here, e.g.
-  createdAt: { type: Date, default: Date.now },
-});
-const DBCustoms = models.dbcustom || model("dbcustom", dbCustomSchema);
-export default DBCustoms;
+import mongoose from "mongoose";
+
+const DBCustomSchema = new mongoose.Schema({}, { strict: false });
+
+const DBCustom = mongoose.model("DBCustom", DBCustomSchema);
+
+export default DBCustom;
