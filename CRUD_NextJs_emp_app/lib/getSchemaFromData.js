@@ -1,20 +1,24 @@
 import { Schema } from "mongoose";
+import moment from "moment";
 
 const getSchemaFromData = async (data) => {
   const schemaFields = {};
   for (const [key, value] of Object.entries(data)) {
     const valueType = typeof value;
-    if (valueType === "string") {
-      schemaFields[key] = { type: String };
+    if (
+      (valueType === "object" && value instanceof Date) ||
+      moment(value, "YYYY-MM-DD", true).isValid()
+    ) {
+      schemaFields[key] = { type: Date };
     } else if (valueType === "number") {
       schemaFields[key] = { type: Number };
-    } else if (valueType === "object" && value instanceof Date) {
-      schemaFields[key] = { type: Date };
+    } else if (valueType === "string") {
+      schemaFields[key] = { type: String };
     } else {
       throw new Error(`Unsupported type ${valueType} for field ${key}`);
     }
   }
-  console.log(schemaFields);
+  // console.log(schemaFields);
   // schemaFields.createdAt = { type: Date, default: Date.now };
   return new Schema(schemaFields);
 };

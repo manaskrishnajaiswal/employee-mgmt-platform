@@ -16,6 +16,7 @@ import { postcustomdatacreate } from "../actions/customActions";
 export default function Home() {
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
+  console.log(columnData);
   const [outputForm, setOutputForm] = useState([
     { colName: "first", colData: "manas", colType: "Text" },
     { colName: "last", colData: "jaiswal", colType: "Text" },
@@ -54,11 +55,31 @@ export default function Home() {
   };
 
   const columnDatahandler = async () => {
-    outputForm.push({
-      colName: columnName,
-      colData: columnData,
-      colType: columnType,
-    });
+    if (columnType === "Number") {
+      outputForm.push({
+        colName: columnName,
+        colData: Number(columnData),
+        colType: columnType,
+      });
+    } else if (columnType === "Text" || columnType === "Textarea") {
+      outputForm.push({
+        colName: columnName,
+        colData: columnData,
+        colType: columnType,
+      });
+    } else if (columnType === "Date") {
+      outputForm.push({
+        colName: columnName,
+        colData: columnData,
+        colType: columnType,
+      });
+    } else {
+      outputForm.push({
+        colName: columnName,
+        colData: columnData,
+        colType: columnType,
+      });
+    }
     setOutputForm(outputForm);
     setColumnName("");
     setColumnData("");
@@ -76,13 +97,10 @@ export default function Home() {
     outputForm.forEach((item) => {
       formObject[item.colName] = item.colData;
     });
-    const model = {
-      data: formObject,
-    };
-    dispatch(postcustomdatacreate(model));
+    dispatch(postcustomdatacreate(formObject));
   };
 
-  // console.log(outputForm);
+  console.log(outputForm);
   return (
     <section>
       <Head>

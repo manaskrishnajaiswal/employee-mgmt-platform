@@ -16,7 +16,7 @@ export const postcustomdatacreate = (outputFormData) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axios.post("/api/custom", outputFormData, config);
+    const { data } = await axios.post("/api/dbcustom", outputFormData, config);
     dispatch({
       type: CUSTOM_DATA_CREATE_SUCCESS,
       payload: data,
