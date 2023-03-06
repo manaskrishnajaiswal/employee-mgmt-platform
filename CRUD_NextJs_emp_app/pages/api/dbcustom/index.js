@@ -1,8 +1,7 @@
 import {
-  getCustomData,
-  postCustomData,
-} from "../../../controllers/customController";
-import { postDBCustomData } from "../../../controllers/dbCustomController";
+  getDBCustomData,
+  postDBCustomData,
+} from "../../../controllers/dbCustomController";
 import connectMongo from "../../../database/conn";
 
 export default async function handler(req, res) {
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       // res.status(200).json({ method, name: "GET Request" });
-      await getCustomData(req, res);
+      await getDBCustomData(req, res);
       break;
     case "POST":
       // res.status(200).json({ method, name: "POST Request" });
