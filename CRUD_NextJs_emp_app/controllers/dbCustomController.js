@@ -2,13 +2,6 @@ import DBCustom from "../models/dbCustomModel";
 import getSchemaFromData from "../lib/getSchemaFromData";
 import moment from "moment";
 
-function convert(str) {
-  var date = new Date(str),
-    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-    day = ("0" + date.getDate()).slice(-2);
-  return [date.getFullYear(), mnth, day].join("-");
-}
-
 // post : http://localhost:3000/api/dbcustom
 export async function postDBCustomData(req, res) {
   try {
@@ -18,14 +11,6 @@ export async function postDBCustomData(req, res) {
         outFormData[key] = new Date(outFormData[key]);
       }
     });
-    // const dateString = "2023-03-03T00:00:00.000Z";
-    // const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T00:00:00.000Z$/;
-
-    // if (regex.test(dateString)) {
-    //   console.log("String matches the pattern");
-    // } else {
-    //   console.log("String does not match the pattern");
-    // }
     const currentdate = new Date();
     outFormData.createdAt = currentdate;
     const modDBCustomSchema = await getSchemaFromData(outFormData);
