@@ -19,9 +19,12 @@ import {
   getcustomdataget,
   getcustomsingledataget,
   postcustomdatacreate,
+  putcustomsingledataupdate,
 } from "../actions/customActions";
+import { CUSTOM_SINGLE_DATA_GET_RESET } from "../constants/customConstants";
 
 export default function Home() {
+  const [customUpdateId, setCustomUpdateId] = useState("");
   const [customDeleteId, setCustomDeleteId] = useState("");
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
@@ -67,6 +70,7 @@ export default function Home() {
   const [customDataUpdate, setCustomDataUpdate] = useState({
     ...customsingledataget,
   });
+
   const customDataDelete = useSelector(
     (state) => state.otherapp.customDataDelete
   );
@@ -76,12 +80,26 @@ export default function Home() {
     customdatadelete,
   } = customDataDelete;
 
+  const customSingleDataUpdate = useSelector(
+    (state) => state.otherapp.customSingleDataUpdate
+  );
+  const {
+    loading: loadingcustomsingledataupdate,
+    error: errorcustomsingledataupdate,
+    customsingledataupdate,
+  } = customSingleDataUpdate;
+
   const queryclient = useQueryClient();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!customdataget || loadingcustomdatacreate || loadingcustomdatadelete) {
+    if (
+      !customdataget ||
+      loadingcustomdatacreate ||
+      loadingcustomdatadelete ||
+      loadingcustomsingledataupdate
+    ) {
       dispatch(getcustomdataget());
     }
     setCustomDataUpdate(customsingledataget);
@@ -101,6 +119,7 @@ export default function Home() {
     loadingcustomdatadelete,
     loadingcustomsingledataget,
     customsingledataget,
+    loadingcustomsingledataupdate,
     // customDataUpdate,
   ]);
 
@@ -182,10 +201,16 @@ export default function Home() {
   };
 
   const onCustomDataUpdate = (customeditid) => {
+    setCustomUpdateId(customeditid);
     dispatch(getcustomsingledataget(customeditid));
   };
   const onCustomDataDelete = (customdeleteid) => {
     setCustomDeleteId(customdeleteid);
+  };
+  const outputFormUpdateHandler = () => {
+    dispatch(putcustomsingledataupdate(customUpdateId, customDataUpdate));
+    dispatch({ type: CUSTOM_SINGLE_DATA_GET_RESET });
+    setCustomUpdateId("");
   };
   console.log(customDataUpdate);
   // console.log(outputForm);
@@ -351,7 +376,7 @@ export default function Home() {
                     <td>
                       <Form
                         className="grid lg:grid-cols-4 w-4/8 gap-4"
-                        onSubmit={outputFormSubmitHandler}
+                        onSubmit={outputFormUpdateHandler}
                       >
                         {Object.keys(customDataUpdate).map((key, index) => (
                           <div className="mx-auto my-4" key={index}>
