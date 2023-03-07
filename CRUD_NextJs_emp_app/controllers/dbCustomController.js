@@ -61,6 +61,7 @@ export async function deleteDBCustomData(req, res) {
   try {
     const { customDataId } = req.query;
     const customData = await DBCustom.findById(customDataId);
+
     if (customData) {
       await customData.remove();
       res.status(200).json({ message: "Custom data deleted successfully" });
@@ -77,9 +78,30 @@ export async function deleteDBCustomData(req, res) {
 export async function getSingleCustomData(req, res) {
   try {
     const { customDataId } = req.query;
-    const customData = await DBCustom.findById(customDataId);
+    const customData = await DBCustom.findById(customDataId).lean();
+    const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T00:00:00.000Z$/;
+    const updatedData = {};
+    Object.keys(customData).forEach((key) => {
+      // console.log(`${key}-${customData[key]}`);
+      if (customData[key] instanceof Date) {
+        const dateString = customData[key].toISOString();
+        // console.log("This is a Date object");
+        if (regex.test(dateString)) {
+          // console.log("String matches the pattern");
+          updatedData[key] = dateString.slice(0, 10);
+        } else {
+          // console.log("String does not match the pattern");
+          updatedData[key] = customData[key];
+        }
+      } else {
+        // console.log("This is not a Date object");
+        updatedData[key] = customData[key];
+      }
+      // console.log(`${key}-${updatedData[key]}`);
+    });
+    // console.log(updatedData);
     if (customData) {
-      res.status(200).send(customData);
+      res.status(200).send(updatedData);
     } else {
       res.status(404);
       res.json({ message: "CustomData not found" });
