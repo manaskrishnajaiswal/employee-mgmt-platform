@@ -5,10 +5,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { configureStore } from "@reduxjs/toolkit";
 import Reducer from "./reducer";
 import listenerMiddleware from "./listener";
-import { customDataCreateReducer } from "../reducers/customReducers";
+import {
+  customDataCreateReducer,
+  customDataGetReducer,
+} from "../reducers/customReducers";
 
 const otherReducers = combineReducers({
   customDataCreate: customDataCreateReducer,
+  customDataGet: customDataGetReducer,
 });
 
 export const store = configureStore({

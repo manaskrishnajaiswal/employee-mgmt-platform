@@ -1,9 +1,10 @@
 import Head from "next/head";
+import Loader from "../components/Loader";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 import Table from "../components/table";
 import UserForm from "../components/form";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction, deleteAction } from "../redux/reducer";
 import { deleteUser, getUsers } from "../lib/helper";
@@ -11,7 +12,10 @@ import { useQueryClient } from "react-query";
 import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 import { BiPlus } from "react-icons/bi";
-import { postcustomdatacreate } from "../actions/customActions";
+import {
+  getcustomdataget,
+  postcustomdatacreate,
+} from "../actions/customActions";
 
 export default function Home() {
   const [columnName, setColumnName] = useState("");
@@ -30,9 +34,31 @@ export default function Home() {
   console.log(columnType);
   const visible = useSelector((state) => state.app.client.toggleForm);
   const deleteId = useSelector((state) => state.app.client.deleteId);
+
+  const customDataCreate = useSelector(
+    (state) => state.otherapp.customDataCreate
+  );
+  const {
+    loading: loadingcustomdatacreate,
+    error: errorcustomdatacreate,
+    customdatacreate,
+  } = customDataCreate;
+  const customDataGet = useSelector((state) => state.otherapp.customDataGet);
+  const {
+    loading: loadingcustomdataget,
+    error: errorcustomdataget,
+    customdataget,
+  } = customDataGet;
+
   const queryclient = useQueryClient();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!customdataget || loadingcustomdatacreate) {
+      dispatch(getcustomdataget());
+    }
+  }, [dispatch, customdataget, loadingcustomdatacreate]);
 
   const handler = () => {
     dispatch(toggleChangeAction());
@@ -325,6 +351,49 @@ export default function Home() {
             </table>
           </div>
         )}
+        <br />
+        <div className="container mx-auto">
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr className="bg-gray-800">
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Output Data From DB</span>
+                </th>
+              </tr>
+            </thead>
+            {loadingcustomdataget ? (
+              <Loader />
+            ) : (
+              <tbody className="bg-gray-200">
+                {customdataget && (
+                  <>
+                    {customdataget.map((item) => (
+                      <tr key={item._id} className="bg-gray-50 text-center">
+                        <td className="px-16 py-2 border-b">
+                          {Object.keys(item).map((key) => (
+                            <p>
+                              <span>
+                                {key !== "_id" &&
+                                  key !== "__v" &&
+                                  key !== "createdAt" &&
+                                  key}
+                                {key !== "_id" &&
+                                  key !== "__v" &&
+                                  key !== "createdAt" && (
+                                    <span>--{item[key]}</span>
+                                  )}
+                              </span>
+                            </p>
+                          ))}
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </tbody>
+            )}
+          </table>
+        </div>
       </main>
     </section>
   );
