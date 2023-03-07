@@ -380,8 +380,6 @@ export default function Home() {
                       >
                         {Object.keys(customDataUpdate).map((key, index) => (
                           <div className="mx-auto my-4" key={index}>
-                            {console.log(typeof customDataUpdate[key])}
-                            {console.log(customDataUpdate[key])}
                             {key !== "_id" &&
                               key !== "__v" &&
                               key !== "createdAt" &&
