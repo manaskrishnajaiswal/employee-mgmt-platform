@@ -361,66 +361,63 @@ export default function Home() {
         )}
         <br />
         <div className="container mx-auto">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr className="bg-gray-800">
-                <th className="px-16 py-2">
-                  <span className="text-gray-200">Output Data From DB</span>
-                </th>
-                <th className="px-16 py-2">
-                  <span className="text-gray-200">Actions</span>
-                </th>
-              </tr>
-            </thead>
-            {loadingcustomdataget ? (
-              <Loader />
-            ) : (
+          {loadingcustomdataget ? (
+            <Loader />
+          ) : (
+            <table className="min-w-full table-auto">
+              <thead>
+                <tr className="bg-gray-800">
+                  <th className="px-16 py-2">
+                    <span className="text-gray-200">Output Data From DB</span>
+                  </th>
+                  <th className="px-16 py-2">
+                    <span className="text-gray-200">Actions</span>
+                  </th>
+                </tr>
+              </thead>
               <tbody className="bg-gray-200">
-                {customdataget && (
-                  <>
-                    {customdataget.map((item) => (
-                      <tr key={item._id} className="bg-gray-50 text-center">
-                        <td className="px-16 py-2 border-b">
-                          {Object.keys(item).map((key) => (
-                            <p key={key}>
-                              <span>
-                                {key !== "_id" &&
-                                  key !== "__v" &&
-                                  key !== "createdAt" &&
-                                  key}
-                                {key !== "_id" &&
-                                  key !== "__v" &&
-                                  key !== "createdAt" && (
-                                    <span>--{item[key]}</span>
-                                  )}
-                              </span>
-                            </p>
-                          ))}
-                        </td>
-                        <td className="px-16 py-2 flex justify-around gap-5">
-                          <button
-                            className="cursor"
-                            onClick={() => onCustomDataUpdate}
-                          >
-                            <BiEdit size={25} color={"rgb(34,197,94)"}></BiEdit>
-                          </button>
-                          <button
-                            className="cursor"
-                            onClick={() => onCustomDataDelete(item._id)}
-                          >
-                            <BiTrashAlt
-                              size={25}
-                              color={"rgb(244,63,94)"}
-                            ></BiTrashAlt>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                )}
+                {customdataget &&
+                  customdataget.map((item) => (
+                    <tr key={item._id} className="bg-gray-50 text-center">
+                      <td className="px-16 py-2 border-b">
+                        {Object.keys(item).map((key) => (
+                          <p key={key}>
+                            <span>
+                              {key !== "_id" &&
+                                key !== "__v" &&
+                                key !== "createdAt" &&
+                                key}
+                              {key !== "_id" &&
+                                key !== "__v" &&
+                                key !== "createdAt" && (
+                                  <span>--{item[key]}</span>
+                                )}
+                            </span>
+                          </p>
+                        ))}
+                      </td>
+                      <td className="px-16 py-2 flex justify-around gap-5">
+                        <button
+                          className="cursor"
+                          onClick={() => onCustomDataUpdate}
+                        >
+                          <BiEdit size={25} color={"rgb(34,197,94)"}></BiEdit>
+                        </button>
+                        <button
+                          className="cursor"
+                          onClick={() => onCustomDataDelete(item._id)}
+                        >
+                          <BiTrashAlt
+                            size={25}
+                            color={"rgb(244,63,94)"}
+                          ></BiTrashAlt>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
-            )}
-          </table>
+            </table>
+          )}
         </div>
       </main>
     </section>
