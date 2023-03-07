@@ -84,10 +84,13 @@ export default function Home() {
       dispatch(getcustomdataget());
     }
     if (customsingledataget) {
-      delete customsingledataget._id;
-      delete customsingledataget.createdAt;
-      delete customsingledataget.__v;
       setCustomDataUpdate(customsingledataget);
+    }
+    if (customDataUpdate) {
+      delete customDataUpdate._id;
+      delete customDataUpdate.createdAt;
+      delete customDataUpdate.__v;
+      setCustomDataUpdate(customDataUpdate);
     }
   }, [
     dispatch,
@@ -96,6 +99,7 @@ export default function Home() {
     loadingcustomdatadelete,
     loadingcustomsingledataget,
     customsingledataget,
+    customDataUpdate,
   ]);
 
   const handler = () => {
@@ -322,7 +326,7 @@ export default function Home() {
           </table>
         </div>
         <br />
-        {customsingledataget && (
+        {customsingledataget && customDataUpdate && (
           <>
             <div className="container mx-auto">
               <table className="min-w-full table-auto">
