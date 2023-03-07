@@ -165,6 +165,9 @@ export default function Home() {
   };
   const handleUpdateDataChange = (key, value) => {
     const updatedOutputForm = { ...customDataUpdate }; // create a shallow copy of the original object
+    // delete updatedOutputForm._id;
+    // delete updatedOutputForm.createdAt;
+    // delete updatedOutputForm.__v;
     setCustomDataUpdate({ ...updatedOutputForm, [key]: value }); // set the updated object as the new state
   };
 
