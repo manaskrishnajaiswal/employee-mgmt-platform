@@ -163,10 +163,9 @@ export default function Home() {
     newItems[index].colData = event.target.value;
     setOutputForm(newItems);
   };
-  const handleUpdateDataChange = (index, event) => {
-    const newOutputForm = { ...outputForm }; // create a shallow copy of the original object
-    newOutputForm[index].colData = event.target.value; // update the property at the specified index
-    setOutputForm(newOutputForm); // set the updated object as the new state
+  const handleUpdateDataChange = (key, value) => {
+    const updatedOutputForm = { ...customDataUpdate }; // create a shallow copy of the original object
+    setCustomDataUpdate({ ...updatedOutputForm, [key]: value }); // set the updated object as the new state
   };
 
   const outputFormSubmitHandler = (e) => {
@@ -333,7 +332,7 @@ export default function Home() {
           </table>
         </div>
         <br />
-        {customsingledataget && (
+        {customDataUpdate && (
           <>
             <div className="container mx-auto">
               <table className="min-w-full table-auto">
@@ -351,15 +350,15 @@ export default function Home() {
                         className="grid lg:grid-cols-4 w-4/8 gap-4"
                         onSubmit={outputFormSubmitHandler}
                       >
-                        {Object.keys(customsingledataget).map((key, index) => (
+                        {Object.keys(customDataUpdate).map((key, index) => (
                           <div className="mx-auto my-4" key={index}>
-                            {console.log(typeof customsingledataget[key])}
-                            {console.log(customsingledataget[key])}
+                            {console.log(typeof customDataUpdate[key])}
+                            {console.log(customDataUpdate[key])}
                             {key !== "_id" &&
                               key !== "__v" &&
                               key !== "createdAt" &&
                               moment(
-                                customsingledataget[key],
+                                customDataUpdate[key],
                                 "YYYY-MM-DD",
                                 true
                               ).isValid() && (
@@ -373,9 +372,12 @@ export default function Home() {
                                       className="px-2 py-2"
                                       type="Date"
                                       placeholder={`Enter ${key}`}
-                                      value={customsingledataget[key]}
+                                      value={customDataUpdate[key]}
                                       onChange={(event) =>
-                                        handleDataChange(event)
+                                        handleUpdateDataChange(
+                                          key,
+                                          event.target.value
+                                        )
                                       }
                                       required
                                       autoComplete="none"
@@ -386,7 +388,7 @@ export default function Home() {
                             {key !== "_id" &&
                               key !== "__v" &&
                               key !== "createdAt" &&
-                              typeof customsingledataget[key] === "number" && (
+                              typeof customDataUpdate[key] === "number" && (
                                 <Form.Group>
                                   <Form.Label>
                                     <strong>{key}</strong>
@@ -396,9 +398,12 @@ export default function Home() {
                                     className="px-2 py-2"
                                     type="Number"
                                     placeholder={`Enter ${key}`}
-                                    value={customsingledataget[key]}
+                                    value={customDataUpdate[key]}
                                     onChange={(event) =>
-                                      handleDataChange(index, event)
+                                      handleUpdateDataChange(
+                                        key,
+                                        Number(event.target.value)
+                                      )
                                     }
                                     required
                                     autoComplete="none"
@@ -408,10 +413,10 @@ export default function Home() {
                             {key !== "_id" &&
                               key !== "__v" &&
                               key !== "createdAt" &&
-                              typeof customsingledataget[key] === "string" &&
-                              customsingledataget[key].length <= 10 &&
+                              typeof customDataUpdate[key] === "string" &&
+                              customDataUpdate[key].length <= 10 &&
                               !moment(
-                                customsingledataget[key],
+                                customDataUpdate[key],
                                 "YYYY-MM-DD",
                                 true
                               ).isValid() && (
@@ -424,9 +429,12 @@ export default function Home() {
                                     className="px-2 py-2"
                                     type="Text"
                                     placeholder={`Enter ${key}`}
-                                    value={customsingledataget[key]}
+                                    value={customDataUpdate[key]}
                                     onChange={(event) =>
-                                      handleDataChange(index, event)
+                                      handleUpdateDataChange(
+                                        key,
+                                        event.target.value
+                                      )
                                     }
                                     required
                                     autoComplete="none"
@@ -436,10 +444,10 @@ export default function Home() {
                             {key !== "_id" &&
                               key !== "__v" &&
                               key !== "createdAt" &&
-                              typeof customsingledataget[key] === "string" &&
-                              customsingledataget[key].length > 10 &&
+                              typeof customDataUpdate[key] === "string" &&
+                              customDataUpdate[key].length > 10 &&
                               !moment(
-                                customsingledataget[key],
+                                customDataUpdate[key],
                                 "YYYY-MM-DD",
                                 true
                               ).isValid() && (
@@ -453,9 +461,12 @@ export default function Home() {
                                     as="textarea"
                                     rows={3}
                                     placeholder={`Enter ${key}`}
-                                    value={customsingledataget[key]}
+                                    value={customDataUpdate[key]}
                                     onChange={(event) =>
-                                      handleDataChange(index, event)
+                                      handleUpdateDataChange(
+                                        key,
+                                        event.target.value
+                                      )
                                     }
                                     required
                                     autoComplete="none"
