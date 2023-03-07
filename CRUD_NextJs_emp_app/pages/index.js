@@ -72,11 +72,15 @@ export default function Home() {
       await queryclient.prefetchQuery("users", getUsers);
       await dispatch(deleteAction(null));
     }
+    if (customDeleteId) {
+      console.log("deleted!");
+    }
   };
 
   const cancelhandler = async () => {
     console.log("cancel");
     await dispatch(deleteAction(null));
+    setCustomDeleteId("");
   };
 
   const columnDatahandler = async () => {
@@ -128,10 +132,9 @@ export default function Home() {
 
   const onCustomDataUpdate = () => {};
   const onCustomDataDelete = (customdeleteid) => {
-    console.log(customdeleteid);
     setCustomDeleteId(customdeleteid);
   };
-
+  console.log(customDeleteId);
   // console.log(outputForm);
   return (
     <section>
@@ -361,6 +364,11 @@ export default function Home() {
         )}
         <br />
         <div className="container mx-auto">
+          {customDeleteId ? (
+            DeleteComponent({ deletehandler, cancelhandler })
+          ) : (
+            <></>
+          )}
           {loadingcustomdataget ? (
             <Loader />
           ) : (
