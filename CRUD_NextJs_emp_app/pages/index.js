@@ -207,7 +207,8 @@ export default function Home() {
   const onCustomDataDelete = (customdeleteid) => {
     setCustomDeleteId(customdeleteid);
   };
-  const outputFormUpdateHandler = () => {
+  const outputFormUpdateHandler = (e) => {
+    e.preventDefault();
     dispatch(putcustomsingledataupdate(customUpdateId, customDataUpdate));
     dispatch({ type: CUSTOM_SINGLE_DATA_GET_RESET });
     setCustomUpdateId("");
