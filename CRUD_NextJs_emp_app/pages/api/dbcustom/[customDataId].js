@@ -4,7 +4,10 @@ import {
   putUser,
   deleteUser,
 } from "../../../controllers/userController";
-import { deleteDBCustomData } from "../../../controllers/dbCustomController";
+import {
+  deleteDBCustomData,
+  getSingleCustomData,
+} from "../../../controllers/dbCustomController";
 export default async function handler(req, res) {
   connectMongo().catch(() =>
     res.status(405).json({ error: "Error in the Connection" })
@@ -16,7 +19,7 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       // res.status(200).json({ method, name: "GET Request" });
-      await getSingleUser(req, res);
+      await getSingleCustomData(req, res);
       break;
     // case "POST":
     //   // res.status(200).json({ method, name: "POST Request" });

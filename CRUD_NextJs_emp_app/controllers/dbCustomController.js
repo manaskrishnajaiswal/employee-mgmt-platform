@@ -72,3 +72,19 @@ export async function deleteDBCustomData(req, res) {
     return res.status(404).json({ error });
   }
 }
+
+// get : http://localhost:3000/api/dbcustom/customDataId
+export async function getSingleCustomData(req, res) {
+  try {
+    const { customDataId } = req.query;
+    const customData = await DBCustom.findById(customDataId);
+    if (customData) {
+      res.status(200).send(customData);
+    } else {
+      res.status(404);
+      res.json({ message: "CustomData not found" });
+    }
+  } catch (error) {
+    return res.status(404).json({ error });
+  }
+}
