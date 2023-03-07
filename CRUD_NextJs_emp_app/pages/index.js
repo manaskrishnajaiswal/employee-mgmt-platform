@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Loader from "../components/Loader";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
+import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import Table from "../components/table";
 import UserForm from "../components/form";
 import Form from "react-bootstrap/Form";
@@ -18,6 +19,7 @@ import {
 } from "../actions/customActions";
 
 export default function Home() {
+  const [customDeleteId, setCustomDeleteId] = useState("");
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
   console.log(columnData);
@@ -122,6 +124,12 @@ export default function Home() {
     });
     dispatch(postcustomdatacreate(formObject));
     setOutputForm([]);
+  };
+
+  const onCustomDataUpdate = () => {};
+  const onCustomDataDelete = (customdeleteid) => {
+    console.log(customdeleteid);
+    // setCustomDeleteId(customdeleteid);
   };
 
   console.log(outputForm);
@@ -359,6 +367,9 @@ export default function Home() {
                 <th className="px-16 py-2">
                   <span className="text-gray-200">Output Data From DB</span>
                 </th>
+                <th className="px-16 py-2">
+                  <span className="text-gray-200">Actions</span>
+                </th>
               </tr>
             </thead>
             {loadingcustomdataget ? (
@@ -371,7 +382,7 @@ export default function Home() {
                       <tr key={item._id} className="bg-gray-50 text-center">
                         <td className="px-16 py-2 border-b">
                           {Object.keys(item).map((key) => (
-                            <p>
+                            <p key={key}>
                               <span>
                                 {key !== "_id" &&
                                   key !== "__v" &&
@@ -385,6 +396,23 @@ export default function Home() {
                               </span>
                             </p>
                           ))}
+                        </td>
+                        <td className="px-16 py-2 flex justify-around gap-5">
+                          <button
+                            className="cursor"
+                            onClick={() => onCustomDataUpdate}
+                          >
+                            <BiEdit size={25} color={"rgb(34,197,94)"}></BiEdit>
+                          </button>
+                          <button
+                            className="cursor"
+                            onClick={() => onCustomDataDelete(item._id)}
+                          >
+                            <BiTrashAlt
+                              size={25}
+                              color={"rgb(244,63,94)"}
+                            ></BiTrashAlt>
+                          </button>
                         </td>
                       </tr>
                     ))}
