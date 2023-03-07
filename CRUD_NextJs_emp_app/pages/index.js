@@ -22,7 +22,6 @@ import {
 } from "../actions/customActions";
 
 export default function Home() {
-  const [customDataUpdate, setCustomDataUpdate] = useState({});
   const [customDeleteId, setCustomDeleteId] = useState("");
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
@@ -65,7 +64,9 @@ export default function Home() {
     error: errorcustomsingledataget,
     customsingledataget,
   } = customSingleDataGet;
-
+  const [customDataUpdate, setCustomDataUpdate] = useState({
+    ...customsingledataget,
+  });
   const customDataDelete = useSelector(
     (state) => state.otherapp.customDataDelete
   );
@@ -83,15 +84,16 @@ export default function Home() {
     if (!customdataget || loadingcustomdatacreate || loadingcustomdatadelete) {
       dispatch(getcustomdataget());
     }
-    if (customsingledataget) {
-      setCustomDataUpdate(customsingledataget);
-    }
-    if (customDataUpdate) {
-      delete customDataUpdate._id;
-      delete customDataUpdate.createdAt;
-      delete customDataUpdate.__v;
-      setCustomDataUpdate(customDataUpdate);
-    }
+    setCustomDataUpdate(customsingledataget);
+    // if (customsingledataget) {
+    //   setCustomDataUpdate(customsingledataget);
+    // }
+    // if (customDataUpdate) {
+    //   delete customDataUpdate._id;
+    //   delete customDataUpdate.createdAt;
+    //   delete customDataUpdate.__v;
+    //   setCustomDataUpdate(customDataUpdate);
+    // }
   }, [
     dispatch,
     customdataget,
@@ -99,7 +101,7 @@ export default function Home() {
     loadingcustomdatadelete,
     loadingcustomsingledataget,
     customsingledataget,
-    customDataUpdate,
+    // customDataUpdate,
   ]);
 
   const handler = () => {
@@ -160,6 +162,11 @@ export default function Home() {
     const newItems = [...outputForm];
     newItems[index].colData = event.target.value;
     setOutputForm(newItems);
+  };
+  const handleUpdateDataChange = (index, event) => {
+    const newOutputForm = { ...outputForm }; // create a shallow copy of the original object
+    newOutputForm[index].colData = event.target.value; // update the property at the specified index
+    setOutputForm(newOutputForm); // set the updated object as the new state
   };
 
   const outputFormSubmitHandler = (e) => {
@@ -326,7 +333,7 @@ export default function Home() {
           </table>
         </div>
         <br />
-        {customsingledataget && customDataUpdate && (
+        {customsingledataget && (
           <>
             <div className="container mx-auto">
               <table className="min-w-full table-auto">
