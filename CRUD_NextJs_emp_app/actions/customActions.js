@@ -12,6 +12,9 @@ import {
   CUSTOM_SINGLE_DATA_GET_FAIL,
   CUSTOM_SINGLE_DATA_GET_REQUEST,
   CUSTOM_SINGLE_DATA_GET_SUCCESS,
+  CUSTOM_SINGLE_DATA_UPDATE_FAIL,
+  CUSTOM_SINGLE_DATA_UPDATE_REQUEST,
+  CUSTOM_SINGLE_DATA_UPDATE_SUCCESS,
 } from "../constants/customConstants";
 
 // create custom data to DB
@@ -121,6 +124,34 @@ export const getcustomsingledataget = (customGetId) => async (dispatch) => {
     // console.log(error);
     dispatch({
       type: CUSTOM_SINGLE_DATA_GET_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// Get custom data from DB
+export const putcustomsingledataupdate = (customPutId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CUSTOM_SINGLE_DATA_UPDATE_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.put(`/api/dbcustom/${customPutId}`, config);
+    dispatch({
+      type: CUSTOM_SINGLE_DATA_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    // console.log(error);
+    dispatch({
+      type: CUSTOM_SINGLE_DATA_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

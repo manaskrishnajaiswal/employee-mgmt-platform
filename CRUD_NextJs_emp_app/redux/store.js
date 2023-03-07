@@ -10,6 +10,7 @@ import {
   customDataDeleteReducer,
   customDataGetReducer,
   customSingleDataGetReducer,
+  customSingleDataUpdateReducer,
 } from "../reducers/customReducers";
 
 const otherReducers = combineReducers({
@@ -17,6 +18,7 @@ const otherReducers = combineReducers({
   customDataGet: customDataGetReducer,
   customDataDelete: customDataDeleteReducer,
   customSingleDataGet: customSingleDataGetReducer,
+  customSingleDataUpdate: customSingleDataUpdateReducer,
 });
 
 export const store = configureStore({
