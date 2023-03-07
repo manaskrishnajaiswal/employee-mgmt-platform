@@ -55,3 +55,20 @@ export async function getDBCustomData(req, res) {
     res.status(404).json({ error: "Error While Fetching Data" });
   }
 }
+
+// delete : http://localhost:3000/api/dbcustom
+export async function deleteDBCustomData(req, res) {
+  try {
+    const { customDataId } = req.query;
+    const customData = await DBCustom.findById(customDataId);
+    if (customData) {
+      await customData.remove();
+      res.status(200).json({ message: "Custom data deleted successfully" });
+    } else {
+      res.status(404);
+      res.json({ message: "Custom data not found" });
+    }
+  } catch (error) {
+    return res.status(404).json({ error });
+  }
+}

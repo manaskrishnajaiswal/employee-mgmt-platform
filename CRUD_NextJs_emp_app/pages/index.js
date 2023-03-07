@@ -22,7 +22,7 @@ export default function Home() {
   const [customDeleteId, setCustomDeleteId] = useState("");
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
-  console.log(columnData);
+  // console.log(columnData);
   const [outputForm, setOutputForm] = useState([]);
 
   const column_type_options = {
@@ -33,7 +33,7 @@ export default function Home() {
     Option5_dropdown: "Dropdown",
   };
   const columnType = useSelector((state) => state.app.client.columnType);
-  console.log(columnType);
+  // console.log(columnType);
   const visible = useSelector((state) => state.app.client.toggleForm);
   const deleteId = useSelector((state) => state.app.client.deleteId);
 
@@ -129,10 +129,10 @@ export default function Home() {
   const onCustomDataUpdate = () => {};
   const onCustomDataDelete = (customdeleteid) => {
     console.log(customdeleteid);
-    // setCustomDeleteId(customdeleteid);
+    setCustomDeleteId(customdeleteid);
   };
 
-  console.log(outputForm);
+  // console.log(outputForm);
   return (
     <section>
       <Head>
@@ -378,8 +378,11 @@ export default function Home() {
               <tbody className="bg-gray-200">
                 {customdataget &&
                   customdataget.map((item) => (
-                    <tr key={item._id} className="bg-gray-50 text-center">
-                      <td className="px-16 py-2 border-b">
+                    <tr
+                      key={item._id}
+                      className="bg-gray-50 text-center border-b"
+                    >
+                      <td className="px-16 py-2">
                         {Object.keys(item).map((key) => (
                           <p key={key}>
                             <span>
