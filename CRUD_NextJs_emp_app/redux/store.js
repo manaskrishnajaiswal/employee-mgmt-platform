@@ -7,12 +7,14 @@ import Reducer from "./reducer";
 import listenerMiddleware from "./listener";
 import {
   customDataCreateReducer,
+  customDataDeleteReducer,
   customDataGetReducer,
 } from "../reducers/customReducers";
 
 const otherReducers = combineReducers({
   customDataCreate: customDataCreateReducer,
   customDataGet: customDataGetReducer,
+  customDataDelete: customDataDeleteReducer,
 });
 
 export const store = configureStore({

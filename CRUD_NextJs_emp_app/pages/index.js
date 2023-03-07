@@ -14,6 +14,7 @@ import Dropdown from "../components/Dropdown";
 import styles from "../styles/Home.module.css";
 import { BiPlus } from "react-icons/bi";
 import {
+  deletecustomdatadelete,
   getcustomdataget,
   postcustomdatacreate,
 } from "../actions/customActions";
@@ -51,16 +52,28 @@ export default function Home() {
     error: errorcustomdataget,
     customdataget,
   } = customDataGet;
-
+  const customDataDelete = useSelector(
+    (state) => state.otherapp.customDataDelete
+  );
+  const {
+    loading: loadingcustomdatadelete,
+    error: errorcustomdatadelete,
+    customdatadelete,
+  } = customDataDelete;
   const queryclient = useQueryClient();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!customdataget || loadingcustomdatacreate) {
+    if (!customdataget || loadingcustomdatacreate || loadingcustomdatadelete) {
       dispatch(getcustomdataget());
     }
-  }, [dispatch, customdataget, loadingcustomdatacreate]);
+  }, [
+    dispatch,
+    customdataget,
+    loadingcustomdatacreate,
+    loadingcustomdatadelete,
+  ]);
 
   const handler = () => {
     dispatch(toggleChangeAction());
@@ -74,6 +87,8 @@ export default function Home() {
     }
     if (customDeleteId) {
       console.log("deleted!");
+      dispatch(deletecustomdatadelete(customDeleteId));
+      setCustomDeleteId("");
     }
   };
 
