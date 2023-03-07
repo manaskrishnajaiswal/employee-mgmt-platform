@@ -7,6 +7,7 @@ import {
 import {
   deleteDBCustomData,
   getSingleCustomData,
+  putDBCustomData,
 } from "../../../controllers/dbCustomController";
 export default async function handler(req, res) {
   connectMongo().catch(() =>
@@ -27,7 +28,7 @@ export default async function handler(req, res) {
     //   break;
     case "PUT":
       // res.status(200).json({ method, name: "PUT Request" });
-      await putUser(req, res);
+      await putDBCustomData(req, res);
       break;
     case "DELETE":
       // res.status(200).json({ method, name: "DELETE Request" });

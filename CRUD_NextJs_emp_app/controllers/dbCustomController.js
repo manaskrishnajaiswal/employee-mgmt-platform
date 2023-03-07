@@ -110,3 +110,37 @@ export async function getSingleCustomData(req, res) {
     return res.status(404).json({ error });
   }
 }
+
+// put : http://localhost:3000/api/dbcustom/63fb7d9f41bf431bcd75a99f
+export async function putDBCustomData(req, res) {
+  try {
+    const { customDataId } = req.query;
+    const formData = req.body;
+    console.log(formData);
+    const customData = await DBCustom.findById(customDataId);
+    if (!customData) {
+      return res.status(404).json({ message: "customData not found" });
+    }
+    const updatedData = {};
+    Object.keys(customData._doc).forEach((key) => {
+      if (moment(formData[key], "YYYY-MM-DD", true).isValid()) {
+        updatedData[key] = new Date(formData[key]) || customData[key];
+      } else {
+        updatedData[key] = formData[key] || customData[key];
+      }
+    });
+    const currentdate = new Date();
+    updatedData.createdAt = currentdate;
+    const updatedCustomData = await DBCustom.findByIdAndUpdate(
+      customDataId,
+      updatedData,
+      { new: true }
+    );
+    res.status(200).json({
+      message: "User updated successfully",
+      data: updatedCustomData,
+    });
+  } catch (error) {
+    res.status(404).json({ error: "Error While Updating the Data...!" });
+  }
+}
