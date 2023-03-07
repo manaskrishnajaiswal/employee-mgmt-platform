@@ -22,6 +22,7 @@ import {
 } from "../actions/customActions";
 
 export default function Home() {
+  const [customDataUpdate, setCustomDataUpdate] = useState({});
   const [customDeleteId, setCustomDeleteId] = useState("");
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
@@ -82,11 +83,19 @@ export default function Home() {
     if (!customdataget || loadingcustomdatacreate || loadingcustomdatadelete) {
       dispatch(getcustomdataget());
     }
+    if (customsingledataget) {
+      delete customsingledataget._id;
+      delete customsingledataget.createdAt;
+      delete customsingledataget.__v;
+      setCustomDataUpdate(customsingledataget);
+    }
   }, [
     dispatch,
     customdataget,
     loadingcustomdatacreate,
     loadingcustomdatadelete,
+    loadingcustomsingledataget,
+    customsingledataget,
   ]);
 
   const handler = () => {
@@ -165,7 +174,7 @@ export default function Home() {
   const onCustomDataDelete = (customdeleteid) => {
     setCustomDeleteId(customdeleteid);
   };
-  console.log(customsingledataget);
+  console.log(customDataUpdate);
   // console.log(outputForm);
   return (
     <section>
@@ -331,13 +340,66 @@ export default function Home() {
                         className="grid lg:grid-cols-4 w-4/8 gap-4"
                         onSubmit={outputFormSubmitHandler}
                       >
-                        {Object.keys(customsingledataget).forEach((key) => (
-                          <>
-                            <div
-                              className="mx-auto my-4"
-                              key={customsingledataget._id}
-                            >
-                              {moment(
+                        {Object.keys(customsingledataget).map((key, index) => (
+                          <div className="mx-auto my-4" key={index}>
+                            {console.log(typeof customsingledataget[key])}
+                            {console.log(customsingledataget[key])}
+                            {key !== "_id" &&
+                              key !== "__v" &&
+                              key !== "createdAt" &&
+                              moment(
+                                customsingledataget[key],
+                                "YYYY-MM-DD",
+                                true
+                              ).isValid() && (
+                                <>
+                                  <Form.Group>
+                                    <Form.Label>
+                                      <strong>{key}</strong>
+                                    </Form.Label>
+                                    <br></br>
+                                    <Form.Control
+                                      className="px-2 py-2"
+                                      type="Date"
+                                      placeholder={`Enter ${key}`}
+                                      value={customsingledataget[key]}
+                                      onChange={(event) =>
+                                        handleDataChange(event)
+                                      }
+                                      required
+                                      autoComplete="none"
+                                    ></Form.Control>
+                                  </Form.Group>
+                                </>
+                              )}
+                            {key !== "_id" &&
+                              key !== "__v" &&
+                              key !== "createdAt" &&
+                              typeof customsingledataget[key] === "number" && (
+                                <Form.Group>
+                                  <Form.Label>
+                                    <strong>{key}</strong>
+                                  </Form.Label>
+                                  <br></br>
+                                  <Form.Control
+                                    className="px-2 py-2"
+                                    type="Number"
+                                    placeholder={`Enter ${key}`}
+                                    value={customsingledataget[key]}
+                                    onChange={(event) =>
+                                      handleDataChange(index, event)
+                                    }
+                                    required
+                                    autoComplete="none"
+                                  ></Form.Control>
+                                </Form.Group>
+                              )}
+                            {key !== "_id" &&
+                              key !== "__v" &&
+                              key !== "createdAt" &&
+                              typeof customsingledataget[key] === "string" &&
+                              customsingledataget[key].length <= 10 &&
+                              !moment(
                                 customsingledataget[key],
                                 "YYYY-MM-DD",
                                 true
@@ -349,29 +411,9 @@ export default function Home() {
                                   <br></br>
                                   <Form.Control
                                     className="px-2 py-2"
-                                    type="Date"
+                                    type="Text"
                                     placeholder={`Enter ${key}`}
                                     value={customsingledataget[key]}
-                                    onChange={(event) =>
-                                      handleDataChange(event)
-                                    }
-                                    required
-                                    autoComplete="none"
-                                  ></Form.Control>
-                                </Form.Group>
-                              )}
-                              {/* {data.colType === "Textarea" && (
-                                <Form.Group>
-                                  <Form.Label>
-                                    <strong>{data.colName}</strong>
-                                  </Form.Label>
-                                  <br></br>
-                                  <Form.Control
-                                    className="px-2 py-2"
-                                    as="textarea"
-                                    rows={3}
-                                    placeholder={`Enter ${data.colType}`}
-                                    value={data.colData}
                                     onChange={(event) =>
                                       handleDataChange(index, event)
                                     }
@@ -379,16 +421,44 @@ export default function Home() {
                                     autoComplete="none"
                                   ></Form.Control>
                                 </Form.Group>
-                              )} */}
-                            </div>
-                          </>
+                              )}
+                            {key !== "_id" &&
+                              key !== "__v" &&
+                              key !== "createdAt" &&
+                              typeof customsingledataget[key] === "string" &&
+                              customsingledataget[key].length > 10 &&
+                              !moment(
+                                customsingledataget[key],
+                                "YYYY-MM-DD",
+                                true
+                              ).isValid() && (
+                                <Form.Group>
+                                  <Form.Label>
+                                    <strong>{key}</strong>
+                                  </Form.Label>
+                                  <br></br>
+                                  <Form.Control
+                                    className="px-2 py-2"
+                                    as="textarea"
+                                    rows={3}
+                                    placeholder={`Enter ${key}`}
+                                    value={customsingledataget[key]}
+                                    onChange={(event) =>
+                                      handleDataChange(index, event)
+                                    }
+                                    required
+                                    autoComplete="none"
+                                  ></Form.Control>
+                                </Form.Group>
+                              )}
+                          </div>
                         ))}
                         <br></br>
                         <button
                           type="submit"
                           className="mx-20 my-4 flex justify-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
                         >
-                          <span className="px-1 my-auto">Add</span>
+                          <span className="px-1 my-auto">Update</span>
                           <span className="px-1 my-auto">
                             <BiPlus size={24}></BiPlus>
                           </span>
