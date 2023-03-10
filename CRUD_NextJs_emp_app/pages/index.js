@@ -22,6 +22,7 @@ import {
   putcustomsingledataupdate,
 } from "../actions/customActions";
 import { CUSTOM_SINGLE_DATA_GET_RESET } from "../constants/customConstants";
+import UserTable from "../components/usertable";
 
 export default function Home() {
   const [customUpdateId, setCustomUpdateId] = useState("");
@@ -260,7 +261,7 @@ export default function Home() {
         <br />
         {/* table */}
         <div className="container mx-auto">
-          <Table></Table>
+          <UserTable></UserTable>
         </div>
         <br />
         <div className="container mx-auto">
