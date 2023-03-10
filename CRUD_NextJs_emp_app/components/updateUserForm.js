@@ -7,25 +7,38 @@ import { getUser, getUsers, updateUser } from "../lib/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { getusersingledataget } from "../actions/userActions";
 
-export default function UpdateUserForm({ formId, formData, setFormData }) {
+export default function UpdateUserForm({ formId }) {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [salary, setSalary] = useState("");
   const [avatar, setAvatar] = useState("");
   const [date, setDate] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
 
   const dispatch = useDispatch();
-  const userSingleDataGet = useSelector((state) => state.otherapp.userDataGet);
+  const userSingleDataGet = useSelector(
+    (state) => state.otherapp.userSingleDataGet
+  );
   const {
     loading: loadingusersingledataget,
     error: errorusersingledataget,
     usersingledataget,
   } = userSingleDataGet;
-
+  // const [firstname, lastname] = usersingledataget
+  //   ? usersingledataget.name.split(" ")
+  //   : "";
   useEffect(() => {
     if (!usersingledataget) {
       dispatch(getusersingledataget(formId));
+    } else {
+      setFirstname(usersingledataget.name.split(" ")[0]);
+      setLastname(usersingledataget.name.split(" ")[1]);
+      setSalary(usersingledataget.salary);
+      setAvatar(usersingledataget.avatar);
+      setDate(usersingledataget.date);
+      setEmail(usersingledataget.email);
+      setStatus(usersingledataget.status);
     }
   }, [dispatch, usersingledataget]);
 
@@ -54,20 +67,36 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
   //   });
   //   await UpdateMutation.mutate(updated);
   // };
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (usersingledataget) {
+      const updatedEmpData = {
+        name: `${firstname} ${lastname}`,
+        salary: salary,
+        avatar: avatar,
+        date: date,
+        email: email,
+        status: status,
+      };
+      console.log(updatedEmpData);
+    }
+  };
 
   if (loadingusersingledataget) return <div>Loading...!</div>;
   if (errorusersingledataget) return <div>Error</div>;
-
+  console.log(usersingledataget);
   return (
-    <form className="grid lg:grid-cols-2 w-4/6 gap-4" onSubmit={handleSubmit}>
+    <>
       {usersingledataget && (
-        <>
+        <form
+          className="grid lg:grid-cols-2 w-4/6 gap-4"
+          onSubmit={handleSubmit}
+        >
           <div className="input-type">
             <input
               type="text"
-              onChange={setFormData}
-              value={usersingledataget.name}
+              value={usersingledataget.name.split(" ")[0]}
+              onChange={(e) => setFirstname(e.target.value)}
               name="firstname"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
               placeholder="FirstName"
@@ -76,8 +105,8 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
           <div className="input-type">
             <input
               type="text"
-              onChange={setFormData}
-              value={usersingledataget.name}
+              value={usersingledataget.name.split(" ")[1]}
+              onChange={(e) => setLastname(e.target.value)}
               name="lastname"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
               placeholder="LastName"
@@ -86,8 +115,8 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
           <div className="input-type">
             <input
               type="text"
-              onChange={setFormData}
               value={usersingledataget.email}
+              onChange={(e) => setEmail(e.target.value)}
               name="email"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
               placeholder="Email"
@@ -96,8 +125,8 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
           <div className="input-type">
             <input
               type="text"
-              onChange={setFormData}
               value={usersingledataget.salary}
+              onChange={(e) => setSalary(e.target.value)}
               name="salary"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
               placeholder="Salary"
@@ -106,8 +135,8 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
           <div className="input-type">
             <input
               type="date"
-              onChange={setFormData}
               value={usersingledataget.date}
+              onChange={(e) => setDate(e.target.value)}
               name="date"
               className="border px-5 py-3 focus:outline-none rounded-md"
               placeholder="Salary"
@@ -118,9 +147,9 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
             <div className="form-check">
               <input
                 type="radio"
-                defaultChecked={status == "Active"}
-                onChange={setFormData}
+                defaultChecked={usersingledataget.status == "Active"}
                 value="Active"
+                onChange={(e) => setStatus(e.target.value)}
                 id="radioDefault1"
                 name="status"
                 className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
@@ -135,9 +164,9 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
             <div className="form-check">
               <input
                 type="radio"
-                defaultChecked={status !== "Active"}
-                onChange={setFormData}
+                defaultChecked={usersingledataget.status !== "Active"}
                 value="Inactive"
+                onChange={(e) => setStatus(e.target.value)}
                 id="radioDefault2"
                 name="status"
                 className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
@@ -157,8 +186,8 @@ export default function UpdateUserForm({ formId, formData, setFormData }) {
               <BiBrush size={24}></BiBrush>
             </span>
           </button>
-        </>
+        </form>
       )}
-    </form>
+    </>
   );
 }
