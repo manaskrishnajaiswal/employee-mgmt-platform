@@ -34,6 +34,7 @@ export const postuserdatacreate = (outputFormData) => async (dispatch) => {
       type: USER_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(getuserdataget());
   } catch (error) {
     // console.log(error);
     dispatch({
