@@ -5,7 +5,10 @@ import Bug from "./bug";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { getUser, getUsers, updateUser } from "../lib/helper";
 import { useDispatch, useSelector } from "react-redux";
-import { getusersingledataget } from "../actions/userActions";
+import {
+  getusersingledataget,
+  putusersingledataupdate,
+} from "../actions/userActions";
 
 export default function UpdateUserForm({ formId }) {
   const [firstname, setFirstname] = useState("");
@@ -78,7 +81,8 @@ export default function UpdateUserForm({ formId }) {
         email: email,
         status: status,
       };
-      console.log(updatedEmpData);
+      // console.log(updatedEmpData);
+      dispatch(putusersingledataupdate(formId, updatedEmpData));
     }
   };
 
@@ -95,7 +99,7 @@ export default function UpdateUserForm({ formId }) {
           <div className="input-type">
             <input
               type="text"
-              value={usersingledataget.name.split(" ")[0]}
+              value={firstname}
               onChange={(e) => setFirstname(e.target.value)}
               name="firstname"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -105,7 +109,7 @@ export default function UpdateUserForm({ formId }) {
           <div className="input-type">
             <input
               type="text"
-              value={usersingledataget.name.split(" ")[1]}
+              value={lastname}
               onChange={(e) => setLastname(e.target.value)}
               name="lastname"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -115,7 +119,7 @@ export default function UpdateUserForm({ formId }) {
           <div className="input-type">
             <input
               type="text"
-              value={usersingledataget.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               name="email"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -124,8 +128,8 @@ export default function UpdateUserForm({ formId }) {
           </div>
           <div className="input-type">
             <input
-              type="text"
-              value={usersingledataget.salary}
+              type="number"
+              value={salary}
               onChange={(e) => setSalary(e.target.value)}
               name="salary"
               className="border w-full px-5 py-3 focus:outline-none rounded-md"
@@ -135,7 +139,7 @@ export default function UpdateUserForm({ formId }) {
           <div className="input-type">
             <input
               type="date"
-              value={usersingledataget.date}
+              value={date}
               onChange={(e) => setDate(e.target.value)}
               name="date"
               className="border px-5 py-3 focus:outline-none rounded-md"

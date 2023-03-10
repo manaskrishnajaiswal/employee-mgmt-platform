@@ -155,6 +155,7 @@ export const putusersingledataupdate =
         type: SINGLE_USER_UPDATE_SUCCESS,
         payload: data,
       });
+      dispatch(getuserdataget());
     } catch (error) {
       // console.log(error);
       dispatch({

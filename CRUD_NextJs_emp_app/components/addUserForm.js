@@ -12,7 +12,18 @@ export default function AddUserForm({ formData, setFormData }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postuserdatacreate(formData));
+    let { firstname, lastname, email, salary, date, status } = formData;
+    const model = {
+      name: `${firstname} ${lastname}`,
+      avatar: `https://randomuser.me/api/portraits/men/${Math.floor(
+        Math.random() * 10
+      )}.jpg`,
+      email,
+      salary,
+      date,
+      status: status ?? "Active",
+    };
+    dispatch(postuserdatacreate(model));
   };
 
   // const queryClient = useQueryClient();
@@ -79,7 +90,7 @@ export default function AddUserForm({ formData, setFormData }) {
       </div>
       <div className="input-type">
         <input
-          type="text"
+          type="number"
           onChange={setFormData}
           name="salary"
           className="border w-full px-5 py-3 focus:outline-none rounded-md"
