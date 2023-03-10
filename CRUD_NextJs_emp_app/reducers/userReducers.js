@@ -3,6 +3,10 @@ import {
   SINGLE_USER_GET_REQUEST,
   SINGLE_USER_GET_RESET,
   SINGLE_USER_GET_SUCCESS,
+  SINGLE_USER_UPDATE_FAIL,
+  SINGLE_USER_UPDATE_REQUEST,
+  SINGLE_USER_UPDATE_RESET,
+  SINGLE_USER_UPDATE_SUCCESS,
   USER_CREATE_FAIL,
   USER_CREATE_REQUEST,
   USER_CREATE_RESET,
@@ -15,10 +19,6 @@ import {
   USER_GET_REQUEST,
   USER_GET_RESET,
   USER_GET_SUCCESS,
-  USER_UPDATE_FAIL,
-  USER_UPDATE_REQUEST,
-  USER_UPDATE_RESET,
-  USER_UPDATE_SUCCESS,
 } from "../constants/userConstants";
 
 export const toggleChangeReducer = (state, action) => {
@@ -103,13 +103,13 @@ export const userSingleDataGetReducer = (state = {}, action) => {
 
 export const userSingleDataUpdateReducer = (state = {}, action) => {
   switch (action.type) {
-    case USER_UPDATE_REQUEST:
+    case SINGLE_USER_UPDATE_REQUEST:
       return { loading: true };
-    case USER_UPDATE_SUCCESS:
+    case SINGLE_USER_UPDATE_SUCCESS:
       return { loading: false, usersingledataupdate: action.payload };
-    case USER_UPDATE_FAIL:
+    case SINGLE_USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
-    case USER_UPDATE_RESET:
+    case SINGLE_USER_UPDATE_RESET:
       return {};
     default:
       return state;
