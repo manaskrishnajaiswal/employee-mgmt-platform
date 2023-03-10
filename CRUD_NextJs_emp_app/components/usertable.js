@@ -1,18 +1,34 @@
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import { getUsers } from "../lib/helper";
 import { useQuery } from "react-query";
-import { useSelector, useDispatch } from "react-redux";
 import {
   toggleChangeAction,
   updateAction,
   deleteAction,
 } from "../redux/reducer";
+import Loader from "./Loader";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getuserdataget } from "../actions/userActions";
 
 export default function UserTable() {
-  const { isLoading, isError, data, error } = useQuery("users", getUsers);
+  // const { isLoading, isError, data, error } = useQuery("users", getUsers);
+  const dispatch = useDispatch();
+  const userDataGet = useSelector((state) => state.otherapp.userDataGet);
+  const {
+    loading: loadinguserDataGet,
+    error: erroruserDataGet,
+    userdataget,
+  } = userDataGet;
 
-  if (isLoading) return <div>Employee is Loading...</div>;
-  if (isError) return <div>Got Error {error}</div>;
+  useEffect(() => {
+    if (!userdataget) {
+      dispatch(getuserdataget());
+    }
+  }, [dispatch, userdataget]);
+
+  if (loadinguserDataGet) return <Loader></Loader>;
+  if (erroruserDataGet) return <div>Got Error {error}</div>;
 
   return (
     <table className="min-w-full table-auto">
@@ -38,11 +54,13 @@ export default function UserTable() {
           </th>
         </tr>
       </thead>
-      <tbody className="bg-gray-200">
-        {data.map((obj, i) => (
-          <Tr {...obj} key={i} />
-        ))}
-      </tbody>
+      {userdataget ? (
+        <tbody className="bg-gray-200">
+          {userdataget.map((obj, i) => (
+            <Tr {...obj} key={i} />
+          ))}
+        </tbody>
+      ) : null}
     </table>
   );
 }
