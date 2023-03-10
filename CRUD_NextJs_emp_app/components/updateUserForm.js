@@ -9,6 +9,11 @@ import {
   getusersingledataget,
   putusersingledataupdate,
 } from "../actions/userActions";
+import { toggleChangeAction } from "../redux/reducer";
+import {
+  SINGLE_USER_GET_RESET,
+  SINGLE_USER_UPDATE_RESET,
+} from "../constants/userConstants";
 
 export default function UpdateUserForm({ formId }) {
   const [firstname, setFirstname] = useState("");
@@ -83,6 +88,8 @@ export default function UpdateUserForm({ formId }) {
       };
       // console.log(updatedEmpData);
       dispatch(putusersingledataupdate(formId, updatedEmpData));
+      dispatch(toggleChangeAction());
+      dispatch({ type: SINGLE_USER_GET_RESET });
     }
   };
 
