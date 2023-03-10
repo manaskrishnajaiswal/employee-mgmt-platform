@@ -117,7 +117,7 @@ export const getusersingledataget = (customGetId) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axios.get(`/api/dbcustom/${customGetId}`, config);
+    const { data } = await axios.get(`/api/users/${customGetId}`, config);
     dispatch({
       type: SINGLE_USER_GET_SUCCESS,
       payload: data,
@@ -147,7 +147,7 @@ export const putusersingledataupdate =
         },
       };
       const { data } = await axios.put(
-        `/api/dbcustom/${customPutId}`,
+        `/api/users/${customPutId}`,
         customDataUpdate,
         config
       );
