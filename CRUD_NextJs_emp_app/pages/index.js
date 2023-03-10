@@ -258,6 +258,11 @@ export default function Home() {
           <Table></Table>
         </div>
         <br />
+        {/* table */}
+        <div className="container mx-auto">
+          <Table></Table>
+        </div>
+        <br />
         <div className="container mx-auto">
           <table className="min-w-full table-auto">
             <thead>
