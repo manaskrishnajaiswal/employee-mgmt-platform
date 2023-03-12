@@ -86,14 +86,12 @@ export const deleteuserdatadelete = (customDeleteId) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axios.delete(
-      `/api/dbcustom/${customDeleteId}`,
-      config
-    );
+    const { data } = await axios.delete(`/api/users/${customDeleteId}`, config);
     dispatch({
       type: USER_DELETE_SUCCESS,
       payload: data,
     });
+    dispatch(getuserdataget());
   } catch (error) {
     // console.log(error);
     dispatch({

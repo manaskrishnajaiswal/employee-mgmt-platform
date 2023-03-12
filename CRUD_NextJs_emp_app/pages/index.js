@@ -23,6 +23,7 @@ import {
 } from "../actions/customActions";
 import { CUSTOM_SINGLE_DATA_GET_RESET } from "../constants/customConstants";
 import UserTable from "../components/usertable";
+import { deleteuserdatadelete } from "../actions/userActions";
 
 export default function Home() {
   const [customUpdateId, setCustomUpdateId] = useState("");
@@ -130,8 +131,9 @@ export default function Home() {
 
   const deletehandler = async () => {
     if (deleteId) {
-      await deleteUser(deleteId);
-      await queryclient.prefetchQuery("users", getUsers);
+      // await deleteUser(deleteId);
+      // await queryclient.prefetchQuery("users", getUsers);
+      await dispatch(deleteuserdatadelete(deleteId));
       await dispatch(deleteAction(null));
     }
     if (customDeleteId) {
@@ -254,10 +256,10 @@ export default function Home() {
         {/* collapsable form */}
         {visible ? <UserForm></UserForm> : <></>}
 
-        {/* table */}
+        {/* table
         <div className="container mx-auto">
           <Table></Table>
-        </div>
+        </div> */}
         <br />
         {/* table */}
         <div className="container mx-auto">

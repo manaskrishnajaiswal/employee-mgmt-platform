@@ -6,6 +6,7 @@ import { useQueryClient, useMutation } from "react-query";
 import { addUser, getUsers } from "../lib/helper";
 import { useDispatch } from "react-redux";
 import { postuserdatacreate } from "../actions/userActions";
+import { toggleChangeAction } from "../redux/reducer";
 
 export default function AddUserForm({ formData, setFormData }) {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default function AddUserForm({ formData, setFormData }) {
       status: status ?? "Active",
     };
     dispatch(postuserdatacreate(model));
+    dispatch(toggleChangeAction());
   };
 
   // const queryClient = useQueryClient();
