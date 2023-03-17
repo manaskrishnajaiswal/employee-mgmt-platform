@@ -1,4 +1,4 @@
-import { BiEdit, BiTrashAlt } from "react-icons/bi";
+import { BiEdit, BiTrashAlt, BiUserCircle } from "react-icons/bi";
 import { getUsers } from "../lib/helper";
 import { useQuery } from "react-query";
 import {
@@ -10,6 +10,7 @@ import Loader from "./Loader";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getuserdataget } from "../actions/userActions";
+import { SINGLE_USER_GET_RESET } from "../constants/userConstants";
 
 export default function UserTable() {
   // const { isLoading, isError, data, error } = useQuery("users", getUsers);
@@ -50,6 +51,9 @@ export default function UserTable() {
             <span className="text-gray-200">Status</span>
           </th>
           <th className="px-16 py-2">
+            <span className="text-gray-200">Employee Info</span>
+          </th>
+          <th className="px-16 py-2">
             <span className="text-gray-200">Actions</span>
           </th>
         </tr>
@@ -73,6 +77,7 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
     dispatch(toggleChangeAction(_id));
     if (visible) {
       dispatch(updateAction(_id));
+      dispatch({ type: SINGLE_USER_GET_RESET });
     }
   };
 
@@ -104,14 +109,17 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
         <span>{date || "Unknown"}</span>
       </td>
       <td className="px-16 py-2">
+        <span
+          className={`${
+            status == "Active" ? "bg-green-500" : "bg-rose-500"
+          } text-white px-5 py-1 rounded-full`}
+        >
+          {status || "Unknown"}
+        </span>
+      </td>
+      <td className="px-16 py-2">
         <button className="cursor">
-          <span
-            className={`${
-              status == "Active" ? "bg-green-500" : "bg-rose-500"
-            } text-white px-5 py-1 rounded-full`}
-          >
-            {status || "Unknown"}
-          </span>
+          <BiUserCircle size={40} color={"rgb(34,197,94)"}></BiUserCircle>
         </button>
       </td>
       <td className="px-16 py-2 flex justify-around gap-5">
