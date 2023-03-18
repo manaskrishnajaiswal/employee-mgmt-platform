@@ -26,7 +26,7 @@ export const employeeCreateReducer = (state = {}, action) => {
     case EMPLOYEE_CREATE_REQUEST:
       return { loading: true };
     case EMPLOYEE_CREATE_SUCCESS:
-      return { loading: false, employeecreate: action.payload };
+      return { loading: false, success: true, employeecreate: action.payload };
     case EMPLOYEE_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case EMPLOYEE_CREATE_RESET:

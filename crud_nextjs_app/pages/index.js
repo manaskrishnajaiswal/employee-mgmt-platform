@@ -1,30 +1,55 @@
-import { employeesGetAction } from "@/frontend/redux/actions/employeeActions";
+import { employeeDeleteAction } from "@/frontend/redux/actions/employeeActions";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 import AddUserForm from "@/frontend/components/AddUserForm";
+import UserTable from "@/frontend/components/usertable";
+import { EMPLOYEES_GET_RESET } from "@/frontend/redux/constants/employeeConstants";
 
 export default function Home() {
   const [deleteId, setDeleteId] = useState("");
   const [visible, setVisible] = useState(false);
 
   const dispatch = useDispatch();
-  const employeesGet = useSelector((state) => state.employeesGet);
+
+  const employeeDelete = useSelector((state) => state.employeeDelete);
   const {
-    loading: loadingemployeesget,
-    error: erroremployeesget,
-    employeesget,
-  } = employeesGet;
+    loading: loadingemployeedelete,
+    success: successemployeedelete,
+    error: erroremployeedelete,
+    employeedelete,
+  } = employeeDelete;
+  const employeeCreate = useSelector((state) => state.employeeCreate);
+  const {
+    loading: loadingemployeecreate,
+    success: successemployeecreate,
+    error: erroremployeecreate,
+    employeecreate,
+  } = employeeCreate;
+
   useEffect(() => {
-    if (!employeesget) {
-      dispatch(employeesGetAction());
+    if (successemployeedelete || successemployeecreate) {
+      dispatch({ type: EMPLOYEES_GET_RESET });
     }
-  }, [dispatch, employeesget]);
+  }, [dispatch, successemployeedelete, successemployeecreate]);
+
   const addEmployeehandler = () => {
     setVisible(!visible);
   };
+
+  const deletehandler = () => {
+    if (deleteId) {
+      dispatch(employeeDeleteAction(deleteId));
+      setDeleteId("");
+    }
+  };
+
+  const cancelhandler = () => {
+    setDeleteId("");
+  };
   console.log(visible);
+  console.log(deleteId);
   return (
     <>
       <section>
@@ -63,13 +88,22 @@ export default function Home() {
             )}
           </div>
           {/* collapsable form */}
-          <div className="container mx-auto py-5">
-            {visible ? (
+          {visible ? (
+            <div className="container mx-auto py-5">
               <AddUserForm visible={visible} setVisiblehandler={setVisible} />
-            ) : (
-              <></>
-            )}
+            </div>
+          ) : (
+            <></>
+          )}
+          <br />
+          {/* table */}
+          <div className="container mx-auto">
+            <UserTable
+              visible={visible}
+              setDeleteIdHandler={setDeleteId}
+            ></UserTable>
           </div>
+          <br />
         </main>
       </section>
     </>

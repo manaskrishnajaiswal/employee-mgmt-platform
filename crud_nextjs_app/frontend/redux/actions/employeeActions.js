@@ -6,6 +6,9 @@ import {
   EMPLOYEE_CREATE_FAIL,
   EMPLOYEE_CREATE_REQUEST,
   EMPLOYEE_CREATE_SUCCESS,
+  EMPLOYEE_DELETE_FAIL,
+  EMPLOYEE_DELETE_REQUEST,
+  EMPLOYEE_DELETE_SUCCESS,
 } from "../constants/employeeConstants";
 
 // GET /api/employee -> Get all employee in the company
@@ -56,6 +59,34 @@ export const employeeCreateAction = (outputFormData) => async (dispatch) => {
     // console.log(error);
     dispatch({
       type: EMPLOYEE_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// DEL /api/employee/EmpId -> delete employee data
+export const employeeDeleteAction = (empId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: EMPLOYEE_DELETE_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.delete(`/api/employee/${empId}`, config);
+    dispatch({
+      type: EMPLOYEE_DELETE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    // console.log(error);
+    dispatch({
+      type: EMPLOYEE_DELETE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
