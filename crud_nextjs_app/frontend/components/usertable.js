@@ -85,7 +85,7 @@ function Tr({
   };
   const empInfoHandler = () => {
     // dispatch(updateAction(_id));
-    // router.push(`/employee/${_id}`);
+    router.push(`/employee/${_id}`);
   };
 
   return (
