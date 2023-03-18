@@ -1,4 +1,8 @@
 import connectMongo from "@/backend/config/database/conn";
+import {
+  getEmployeesData,
+  postEmployeeData,
+} from "@/backend/controllers/employeeController";
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>
