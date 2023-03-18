@@ -17,7 +17,6 @@ export async function postEmployeeData(req, res) {
     const newDBCustomData = new Employee(outFormData);
     newDBCustomData.schema = modDBCustomSchema;
     const result = await newDBCustomData.save();
-    console.log(result);
     res.status(200).send({ result, message: "Data created successfully" });
   } catch (error) {
     return res.status(404).json({ error, message: "Error creating Data" });
@@ -116,13 +115,12 @@ export async function putEmployeeData(req, res) {
   try {
     const { EmpId } = req.query;
     const formData = req.body;
-    console.log(formData);
     const customData = await Employee.findById(EmpId);
     if (!customData) {
       return res.status(404).json({ message: "customData not found" });
     }
     const updatedData = {};
-    Object.keys(customData._doc).forEach((key) => {
+    Object.keys(formData).forEach((key) => {
       if (moment(formData[key], "YYYY-MM-DD", true).isValid()) {
         updatedData[key] = new Date(formData[key]) || customData[key];
       } else {

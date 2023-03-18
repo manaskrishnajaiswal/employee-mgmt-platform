@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { employeeCreateAction } from "../redux/actions/employeeActions";
-import { EMPLOYEES_GET_RESET } from "../redux/constants/employeeConstants";
 
 const AddUserForm = ({ visible, setVisiblehandler }) => {
   const [firstname, setFirstName] = useState("");
@@ -104,7 +103,7 @@ const AddUserForm = ({ visible, setVisiblehandler }) => {
           <input
             type="radio"
             onChange={(e) => setStatus(e.target.value)}
-            value="Inactive"
+            value="InActive"
             id="radioDefault2"
             name="status"
             className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
