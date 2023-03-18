@@ -24,6 +24,7 @@ import {
 import { CUSTOM_SINGLE_DATA_GET_RESET } from "../constants/customConstants";
 import UserTable from "../components/usertable";
 import { deleteuserdatadelete } from "../actions/userActions";
+import { SINGLE_USER_GET_RESET } from "../constants/userConstants";
 
 export default function Home() {
   const [customUpdateId, setCustomUpdateId] = useState("");
@@ -103,6 +104,9 @@ export default function Home() {
       loadingcustomsingledataupdate
     ) {
       dispatch(getcustomdataget());
+      dispatch({ type: SINGLE_USER_GET_RESET });
+    } else {
+      dispatch({ type: SINGLE_USER_GET_RESET });
     }
     setCustomDataUpdate(customsingledataget);
     // if (customsingledataget) {
@@ -217,6 +221,7 @@ export default function Home() {
     setCustomUpdateId("");
   };
   console.log(customDataUpdate);
+
   // console.log(outputForm);
   return (
     <section>

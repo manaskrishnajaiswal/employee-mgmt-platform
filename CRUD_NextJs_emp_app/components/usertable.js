@@ -1,4 +1,5 @@
 import { BiEdit, BiTrashAlt, BiUserCircle } from "react-icons/bi";
+import { useRouter } from "next/router";
 import { getUsers } from "../lib/helper";
 import { useQuery } from "react-query";
 import {
@@ -72,7 +73,7 @@ export default function UserTable() {
 function Tr({ _id, name, avatar, email, salary, date, status }) {
   const visible = useSelector((state) => state.app.client.toggleForm);
   const dispatch = useDispatch();
-
+  const router = useRouter();
   const onUpdate = () => {
     dispatch(toggleChangeAction(_id));
     if (visible) {
@@ -85,6 +86,11 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
     if (!visible) {
       dispatch(deleteAction(_id));
     }
+  };
+
+  const empInfoHandler = () => {
+    dispatch(updateAction(_id));
+    router.push(`/employee/${_id}`);
   };
 
   return (
@@ -118,7 +124,7 @@ function Tr({ _id, name, avatar, email, salary, date, status }) {
         </span>
       </td>
       <td className="px-16 py-2">
-        <button className="cursor">
+        <button className="cursor" onClick={empInfoHandler}>
           <BiUserCircle size={40} color={"rgb(34,197,94)"}></BiUserCircle>
         </button>
       </td>
