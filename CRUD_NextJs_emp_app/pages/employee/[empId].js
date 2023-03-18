@@ -1,10 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useReducer } from "react";
 import UserForm from "../../components/form";
+import { formReducer } from "../../reducers/userReducers";
+import UpdateUserForm from "../../components/updateUserForm";
 
 const EmpInfo = () => {
   const router = useRouter();
+  const EmpId = router.query.empId;
+  const [formData, setFormData] = useReducer(formReducer, {});
   console.log(router.query.empId);
   return (
     <>
@@ -26,7 +30,9 @@ const EmpInfo = () => {
           <h1 className="text-xl md:text-5xl text-center font-bold py-10">
             Employee Info
           </h1>
-          <UserForm></UserForm>
+          <div className="container mx-auto py-5">
+            {EmpId && UpdateUserForm({ EmpId, formData, setFormData })}
+          </div>
         </main>
       </section>
     </>

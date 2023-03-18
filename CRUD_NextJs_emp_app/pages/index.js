@@ -220,7 +220,7 @@ export default function Home() {
     dispatch({ type: CUSTOM_SINGLE_DATA_GET_RESET });
     setCustomUpdateId("");
   };
-  console.log(customDataUpdate);
+  // console.log(customDataUpdate);
 
   // console.log(outputForm);
   return (

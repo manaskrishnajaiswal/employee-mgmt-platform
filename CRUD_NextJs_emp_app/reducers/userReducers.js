@@ -37,6 +37,13 @@ export const columnTypeReducer = (state, action) => {
   state.client.columnType = action.payload;
 };
 
+export const formReducer = (state, event) => {
+  return {
+    ...state,
+    [event.target.name]: event.target.value,
+  };
+};
+
 export const userDataCreateReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_CREATE_REQUEST:

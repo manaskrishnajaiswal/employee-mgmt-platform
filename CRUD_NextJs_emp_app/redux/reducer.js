@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   columnTypeReducer,
   deleteUserReducer,
+  formReducer,
   toggleChangeReducer,
   updateUserReducer,
 } from "../reducers/userReducers";
@@ -23,6 +24,7 @@ export const ReducerSlice = createSlice({
     updateAction: updateUserReducer,
     deleteAction: deleteUserReducer,
     columnTypeAction: columnTypeReducer,
+    formAction: formReducer,
   },
 });
 
@@ -32,5 +34,6 @@ export const {
   updateAction,
   deleteAction,
   columnTypeAction,
+  formAction,
 } = ReducerSlice.actions;
 export default ReducerSlice.reducer;
