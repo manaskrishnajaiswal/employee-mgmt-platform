@@ -2,6 +2,13 @@ import { applyMiddleware, createStore } from "redux";
 import { combineReducers } from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import {
+  employeeCreateReducer,
+  employeeDeleteReducer,
+  employeeGetReducer,
+  employeeUpdateReducer,
+  employeesGetReducer,
+} from "../reducers/employeeReducers";
 
 const bindMiddlware = (middleware) => {
   if (process.env.NODE_ENV !== "production") {
@@ -10,6 +17,12 @@ const bindMiddlware = (middleware) => {
   return applyMiddleware(...middleware);
 };
 
-const reducers = combineReducers({});
+const reducers = combineReducers({
+  employeeCreate: employeeCreateReducer,
+  employeesGet: employeesGetReducer,
+  employeeDelete: employeeDeleteReducer,
+  employeeGet: employeeGetReducer,
+  employeeUpdate: employeeUpdateReducer,
+});
 
 export const store = createStore(reducers, bindMiddlware([thunkMiddleware]));
