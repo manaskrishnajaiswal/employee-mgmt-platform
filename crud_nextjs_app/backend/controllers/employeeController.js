@@ -1,5 +1,6 @@
 import moment from "moment";
 import getSchemaFromData from "../config/lib/getSchemaFromData";
+import Employee from "../models/employeeModel";
 
 // POST /api/employee -> Post/add employee in the company
 export async function postEmployeeData(req, res) {
@@ -13,7 +14,7 @@ export async function postEmployeeData(req, res) {
     const currentdate = new Date();
     outFormData.createdAt = currentdate;
     const modDBCustomSchema = await getSchemaFromData(outFormData);
-    const newDBCustomData = new DBCustom(outFormData);
+    const newDBCustomData = new Employee(outFormData);
     newDBCustomData.schema = modDBCustomSchema;
     const result = await newDBCustomData.save();
     console.log(result);
@@ -26,7 +27,7 @@ export async function postEmployeeData(req, res) {
 // GET /api/employee -> Get all employee in the company
 export async function getEmployeesData(req, res) {
   try {
-    const customData = await DBCustom.find({});
+    const customData = await Employee.find({});
     const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T00:00:00.000Z$/;
     const modifiedData = customData.map((doc) => {
       const obj = doc.toObject();
@@ -58,8 +59,8 @@ export async function getEmployeesData(req, res) {
 // DEL /api/employee/EmpId -> delete employee data
 export async function deleteEmployeeData(req, res) {
   try {
-    const { customDataId } = req.query;
-    const customData = await DBCustom.findById(customDataId);
+    const { EmpId } = req.query;
+    const customData = await Employee.findById(EmpId);
 
     if (customData) {
       await customData.remove();
@@ -76,8 +77,8 @@ export async function deleteEmployeeData(req, res) {
 // GET /api/employee/EmpId -> get data of a employee
 export async function getEmployeeData(req, res) {
   try {
-    const { customDataId } = req.query;
-    const customData = await DBCustom.findById(customDataId).lean();
+    const { EmpId } = req.query;
+    const customData = await Employee.findById(EmpId).lean();
     const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}T00:00:00.000Z$/;
     const updatedData = {};
     Object.keys(customData).forEach((key) => {
@@ -113,10 +114,10 @@ export async function getEmployeeData(req, res) {
 // PUT /api/employee/EmpId -> update data of a employee
 export async function putEmployeeData(req, res) {
   try {
-    const { customDataId } = req.query;
+    const { EmpId } = req.query;
     const formData = req.body;
     console.log(formData);
-    const customData = await DBCustom.findById(customDataId);
+    const customData = await Employee.findById(EmpId);
     if (!customData) {
       return res.status(404).json({ message: "customData not found" });
     }
@@ -130,8 +131,8 @@ export async function putEmployeeData(req, res) {
     });
     const currentdate = new Date();
     updatedData.createdAt = currentdate;
-    const updatedCustomData = await DBCustom.findByIdAndUpdate(
-      customDataId,
+    const updatedCustomData = await Employee.findByIdAndUpdate(
+      EmpId,
       updatedData,
       { new: true }
     );
