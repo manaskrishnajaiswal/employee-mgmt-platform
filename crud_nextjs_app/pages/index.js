@@ -1,6 +1,29 @@
+import { employeesGetAction } from "@/frontend/redux/actions/employeeActions";
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 
 export default function Home() {
+  const [deleteId, setDeleteId] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  const dispatch = useDispatch();
+  const employeesGet = useSelector((state) => state.employeesGet);
+  const {
+    loading: loadingemployeesget,
+    error: erroremployeesget,
+    employeesget,
+  } = employeesGet;
+  useEffect(() => {
+    if (!employeesget) {
+      dispatch(employeesGetAction());
+    }
+  }, [dispatch, employeesget]);
+  const addEmployeehandler = () => {
+    setVisible(!visible);
+  };
+  console.log(visible);
   return (
     <>
       <section>
@@ -21,7 +44,47 @@ export default function Home() {
             Employee Management
           </h1>
         </main>
+        <div className="container mx-auto flex justify-between py-5 border-b">
+          <div className="left flex gap-3">
+            <button
+              onClick={addEmployeehandler}
+              className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
+            >
+              Add Employee{" "}
+              <span className="px-1">
+                <BiUserPlus size={23}></BiUserPlus>
+              </span>
+            </button>
+          </div>
+          {deleteId ? DeleteComponent({ deletehandler, cancelhandler }) : <></>}
+        </div>
       </section>
     </>
+  );
+}
+
+function DeleteComponent({ deletehandler, cancelhandler }) {
+  return (
+    <div className="flex gap-5">
+      <button>Are you sure?</button>
+      <button
+        onClick={deletehandler}
+        className="flex bg-red-500 text-white px-4 py-2 border rounded-md hover:bg-rose-500 hover:border-red-500 hover:text-gray-50"
+      >
+        Yes{" "}
+        <span className="px-1">
+          <BiX color="rgb(255 255 255)" size={25} />
+        </span>
+      </button>
+      <button
+        onClick={cancelhandler}
+        className="flex bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gree-500 hover:border-green-500 hover:text-gray-50"
+      >
+        No{" "}
+        <span className="px-1">
+          <BiCheck color="rgb(255 255 255)" size={25} />
+        </span>
+      </button>
+    </div>
   );
 }
