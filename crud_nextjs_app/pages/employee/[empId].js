@@ -7,6 +7,7 @@ import { emplpoyeeGetAction } from "@/frontend/redux/actions/employeeActions";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UpdateUserForm from "@/frontend/components/UpdateUserForm";
 
 const EmpInfo = () => {
   const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
@@ -84,7 +85,20 @@ const EmpInfo = () => {
               </button>
             </div>
           </div>
-          <div className="container mx-auto py-5"></div>
+          {/* collapsable form */}
+          {visisbleUpEmp ? (
+            <div className="container mx-auto py-5 border-b">
+              {employeeget && (
+                <UpdateUserForm
+                  employeeget={employeeget}
+                  visisbleUpEmp={visisbleUpEmp}
+                  setVisibleUpEmphandler={setVisibleUpEmp}
+                />
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
         </main>
       </section>
     </>
