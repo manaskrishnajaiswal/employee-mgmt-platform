@@ -1,4 +1,4 @@
-import { BiEdit, BiTrashAlt, BiUserCircle } from "react-icons/bi";
+import { BiEdit, BiTrashAlt, BiUserCircle, BiArrowBack } from "react-icons/bi";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -12,13 +12,16 @@ import {
   EMPLOYEE_GET_RESET,
   EMPLOYEE_UPDATE_RESET,
 } from "@/frontend/redux/constants/employeeConstants";
+import ViewUserForm from "@/frontend/components/ViewUserForm";
+import Link from "next/link";
 
 const EmpInfo = () => {
-  const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
-  const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const EmpId = router.query.empId;
+
+  const [EmpId, setEmpId] = useState(router.query.empId || "");
+  const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
+  const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
 
   const employeeGet = useSelector((state) => state.employeeGet);
   const {
@@ -58,6 +61,10 @@ const EmpInfo = () => {
       toast.error("Update Action in Progress...");
     }
   };
+  const backButtonHandler = () => {
+    setEmpId("");
+    dispatch({ type: EMPLOYEE_GET_RESET });
+  };
   console.log(EmpId);
   return (
     <>
@@ -76,9 +83,22 @@ const EmpInfo = () => {
         </Head>
         <ToastContainer position="bottom-right" />
         <main className="py-5">
-          <h1 className="text-xl md:text-5xl text-center font-bold py-10">
-            Employee Info
-          </h1>
+          <div className="container mx-auto flex justify-between py-5 border-b">
+            <Link href="/">
+              <button
+                onClick={backButtonHandler}
+                className="flex bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
+              >
+                <span className="px-1">
+                  <BiArrowBack size={23}></BiArrowBack>
+                </span>
+                Go Back{" "}
+              </button>
+            </Link>
+            <h1 className="text-xl md:text-5xl text-center font-bold">
+              Employee Info
+            </h1>
+          </div>
           <div className="container mx-auto flex justify-between py-5 border-b">
             <div className="left flex gap-3">
               <button
@@ -118,6 +138,16 @@ const EmpInfo = () => {
           ) : (
             <></>
           )}
+          <div className="container mx-auto py-5 border-b">
+            {employeeget && EmpId && (
+              <ViewUserForm
+                EmpId={EmpId}
+                employeeget={employeeget}
+                visisbleUpEmp={visisbleUpEmp}
+                setVisibleUpEmphandler={setVisibleUpEmp}
+              />
+            )}
+          </div>
         </main>
       </section>
     </>

@@ -5,7 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { BiUserPlus, BiX, BiCheck } from "react-icons/bi";
 import AddUserForm from "@/frontend/components/AddUserForm";
 import UserTable from "@/frontend/components/usertable";
-import { EMPLOYEES_GET_RESET } from "@/frontend/redux/constants/employeeConstants";
+import {
+  EMPLOYEES_GET_RESET,
+  EMPLOYEE_CREATE_RESET,
+  EMPLOYEE_DELETE_RESET,
+  EMPLOYEE_GET_RESET,
+} from "@/frontend/redux/constants/employeeConstants";
 
 export default function Home() {
   const [deleteId, setDeleteId] = useState("");
@@ -31,7 +36,10 @@ export default function Home() {
   useEffect(() => {
     if (successemployeedelete || successemployeecreate) {
       dispatch({ type: EMPLOYEES_GET_RESET });
+      dispatch({ type: EMPLOYEE_DELETE_RESET });
+      dispatch({ type: EMPLOYEE_CREATE_RESET });
     }
+    dispatch({ type: EMPLOYEE_GET_RESET });
   }, [dispatch, successemployeedelete, successemployeecreate]);
 
   const addEmployeehandler = () => {
