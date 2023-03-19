@@ -21,7 +21,7 @@ const AddUserForm = ({ visible, setVisiblehandler }) => {
         Math.random() * 10
       )}.jpg`,
       email: email,
-      salary: salary,
+      salary: Number(salary),
       date: date,
       status: status ?? "Active",
     };

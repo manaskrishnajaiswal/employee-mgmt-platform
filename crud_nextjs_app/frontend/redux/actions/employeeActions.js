@@ -12,6 +12,9 @@ import {
   EMPLOYEE_GET_FAIL,
   EMPLOYEE_GET_REQUEST,
   EMPLOYEE_GET_SUCCESS,
+  EMPLOYEE_UPDATE_FAIL,
+  EMPLOYEE_UPDATE_REQUEST,
+  EMPLOYEE_UPDATE_SUCCESS,
 } from "../constants/employeeConstants";
 
 // GET /api/employee -> Get all employee in the company
@@ -125,3 +128,36 @@ export const employeeDeleteAction = (empId) => async (dispatch) => {
     });
   }
 };
+
+// PUT /api/employee/EmpId -> update data of a employee
+export const employeeUpdateAction =
+  (empId, customDataUpdate) => async (dispatch) => {
+    try {
+      dispatch({
+        type: EMPLOYEE_UPDATE_REQUEST,
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.put(
+        `/api/employee/${empId}`,
+        customDataUpdate,
+        config
+      );
+      dispatch({
+        type: EMPLOYEE_UPDATE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      // console.log(error);
+      dispatch({
+        type: EMPLOYEE_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

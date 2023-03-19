@@ -1,130 +1,149 @@
-import React from "react";
+import React, { useEffect } from "react";
+import moment from "moment";
+import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
-import { useDispatch } from "react-redux";
-import { employeeCreateAction } from "../redux/actions/employeeActions";
+import { useDispatch, useSelector } from "react-redux";
+import { employeeUpdateAction } from "../redux/actions/employeeActions";
+import { EMPLOYEE_GET_RESET } from "../redux/constants/employeeConstants";
 
-const UpdateUserForm = ({ visible, setVisiblehandler }) => {
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [salary, setSalary] = useState("");
-  const [date, setDate] = useState("");
-  const [status, setStatus] = useState("Active");
-
+const UpdateUserForm = ({
+  EmpId,
+  visisbleUpEmp,
+  setVisibleUpEmphandler,
+  employeeget,
+}) => {
   const dispatch = useDispatch();
+  const [customDataUpdate, setCustomDataUpdate] = useState({
+    ...employeeget,
+  });
 
-  const addEmployeehandleSubmit = (e) => {
-    e.preventDefault();
-    const model = {
-      name: `${firstname} ${lastname}`,
-      avatar: `https://randomuser.me/api/portraits/men/${Math.floor(
-        Math.random() * 10
-      )}.jpg`,
-      email: email,
-      salary: salary,
-      date: date,
-      status: status ?? "Active",
-    };
-    dispatch(employeeCreateAction(model));
-    setVisiblehandler(!visible);
+  const handleUpdateDataChange = (key, value) => {
+    const updatedOutputForm = { ...customDataUpdate }; // create a shallow copy of the original object
+    setCustomDataUpdate({ ...updatedOutputForm, [key]: value }); // set the updated object as the new state
   };
-
+  const employeeUpdateSubmitHandler = (e) => {
+    e.preventDefault();
+    dispatch(employeeUpdateAction(EmpId, customDataUpdate));
+    setVisibleUpEmphandler("");
+  };
   return (
-    <form
-      className="grid lg:grid-cols-2 w-4/6 gap-4"
-      onSubmit={addEmployeehandleSubmit}
-    >
-      <div className="input-type">
-        <input
-          type="text"
-          value={firstname}
-          onChange={(e) => setFirstName(e.target.value)}
-          name="firstname"
-          className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="FirstName"
-        />
-      </div>
-      <div className="input-type">
-        <input
-          type="text"
-          value={lastname}
-          onChange={(e) => setLastName(e.target.value)}
-          name="lastname"
-          className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="LastName"
-        />
-      </div>
-      <div className="input-type">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          name="email"
-          className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="Email"
-        />
-      </div>
-      <div className="input-type">
-        <input
-          type="number"
-          value={salary}
-          onChange={(e) => setSalary(e.target.value)}
-          name="salary"
-          className="border w-full px-5 py-3 focus:outline-none rounded-md"
-          placeholder="Salary"
-        />
-      </div>
-      <div className="input-type">
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          name="date"
-          className="border px-5 py-3 focus:outline-none rounded-md"
-          placeholder="Date"
-        />
-      </div>
-
-      <div className="flex gap-10 items-center">
-        <div className="form-check">
-          <input
-            type="radio"
-            onChange={(e) => setStatus(e.target.value)}
-            value="Active"
-            id="radioDefault1"
-            name="status"
-            className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-          />
-          <label htmlFor="radioDefault1" className="inline-block tet-gray-800">
-            Active
-          </label>
-        </div>
-        <div className="form-check">
-          <input
-            type="radio"
-            onChange={(e) => setStatus(e.target.value)}
-            value="InActive"
-            id="radioDefault2"
-            name="status"
-            className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300  bg-white checked:bg-green-500 checked:border-green-500 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-          />
-          <label htmlFor="radioDefault2" className="inline-block tet-gray-800">
-            Inactive
-          </label>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className="flex justify-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
+    <div className="bg-gray-200">
+      <Form
+        className="grid lg:grid-cols-4 w-4/8 gap-4"
+        onSubmit={employeeUpdateSubmitHandler}
       >
-        Update{" "}
-        <span className="px-1">
-          <BiPlus size={24}></BiPlus>
-        </span>
-      </button>
-    </form>
+        {Object.keys(customDataUpdate).map((key, index) => (
+          <div className="mx-auto my-4" key={index}>
+            {key !== "_id" &&
+              key !== "__v" &&
+              key !== "createdAt" &&
+              moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
+                <>
+                  <Form.Group>
+                    <Form.Label>
+                      <strong>{key}</strong>
+                    </Form.Label>
+                    <br></br>
+                    <Form.Control
+                      className="px-2 py-2"
+                      type="Date"
+                      placeholder={`Enter ${key}`}
+                      value={customDataUpdate[key]}
+                      onChange={(event) =>
+                        handleUpdateDataChange(key, event.target.value)
+                      }
+                      required
+                      autoComplete="none"
+                    ></Form.Control>
+                  </Form.Group>
+                </>
+              )}
+            {key !== "_id" &&
+              key !== "__v" &&
+              key !== "createdAt" &&
+              typeof customDataUpdate[key] === "number" && (
+                <Form.Group>
+                  <Form.Label>
+                    <strong>{key}</strong>
+                  </Form.Label>
+                  <br></br>
+                  <Form.Control
+                    className="px-2 py-2"
+                    type="Number"
+                    placeholder={`Enter ${key}`}
+                    value={customDataUpdate[key]}
+                    onChange={(event) =>
+                      handleUpdateDataChange(key, Number(event.target.value))
+                    }
+                    required
+                    autoComplete="none"
+                  ></Form.Control>
+                </Form.Group>
+              )}
+            {key !== "_id" &&
+              key !== "__v" &&
+              key !== "createdAt" &&
+              typeof customDataUpdate[key] === "string" &&
+              customDataUpdate[key].length <= 10 &&
+              !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
+                <Form.Group>
+                  <Form.Label>
+                    <strong>{key}</strong>
+                  </Form.Label>
+                  <br></br>
+                  <Form.Control
+                    className="px-2 py-2"
+                    type="Text"
+                    placeholder={`Enter ${key}`}
+                    value={customDataUpdate[key]}
+                    onChange={(event) =>
+                      handleUpdateDataChange(key, event.target.value)
+                    }
+                    required
+                    autoComplete="none"
+                  ></Form.Control>
+                </Form.Group>
+              )}
+            {key !== "_id" &&
+              key !== "__v" &&
+              key !== "createdAt" &&
+              typeof customDataUpdate[key] === "string" &&
+              customDataUpdate[key].length > 10 &&
+              !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
+                <Form.Group>
+                  <Form.Label>
+                    <strong>{key}</strong>
+                  </Form.Label>
+                  <br></br>
+                  <Form.Control
+                    className="px-2 py-2"
+                    as="textarea"
+                    rows={3}
+                    placeholder={`Enter ${key}`}
+                    value={customDataUpdate[key]}
+                    onChange={(event) =>
+                      handleUpdateDataChange(key, event.target.value)
+                    }
+                    required
+                    autoComplete="none"
+                  ></Form.Control>
+                </Form.Group>
+              )}
+          </div>
+        ))}
+        <br></br>
+        <button
+          type="submit"
+          className="mx-20 my-4 flex justify-center text-md w-2/6 bg-green-500 text-white px-4 py-2 border rounded-md hover:bg-gray-50 hover:border-green-500 hover:text-green-500"
+        >
+          <span className="px-1 my-auto">Update</span>
+          <span className="px-1 my-auto">
+            <BiPlus size={24}></BiPlus>
+          </span>
+        </button>
+      </Form>
+    </div>
   );
 };
 

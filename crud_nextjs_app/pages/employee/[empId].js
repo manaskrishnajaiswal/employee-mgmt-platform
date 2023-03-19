@@ -8,6 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateUserForm from "@/frontend/components/UpdateUserForm";
+import {
+  EMPLOYEE_GET_RESET,
+  EMPLOYEE_UPDATE_RESET,
+} from "@/frontend/redux/constants/employeeConstants";
 
 const EmpInfo = () => {
   const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
@@ -22,11 +26,24 @@ const EmpInfo = () => {
     error: erroremployeeget,
     employeeget,
   } = employeeGet;
+  const employeeUpdate = useSelector((state) => state.employeeUpdate);
+  const {
+    loading: loadingemployeeupdate,
+    success: successemployeeupdate,
+    error: erroremployeeupdate,
+    employeeupdate,
+  } = employeeUpdate;
   useEffect(() => {
-    if (EmpId) {
-      dispatch(emplpoyeeGetAction(EmpId));
+    if (successemployeeupdate) {
+      dispatch({ type: EMPLOYEE_GET_RESET });
+      dispatch({ type: EMPLOYEE_UPDATE_RESET });
     }
-  }, [dispatch, EmpId]);
+    if (!employeeget) {
+      if (EmpId) {
+        dispatch(emplpoyeeGetAction(EmpId));
+      }
+    }
+  }, [dispatch, EmpId, employeeget, successemployeeupdate]);
   const updateEmployeehandler = () => {
     if (!visibleAddNewEmpData) {
       setVisibleUpEmp(!visisbleUpEmp);
@@ -41,6 +58,7 @@ const EmpInfo = () => {
       toast.error("Update Action in Progress...");
     }
   };
+  console.log(EmpId);
   return (
     <>
       <section>
@@ -88,8 +106,9 @@ const EmpInfo = () => {
           {/* collapsable form */}
           {visisbleUpEmp ? (
             <div className="container mx-auto py-5 border-b">
-              {employeeget && (
+              {employeeget && EmpId && (
                 <UpdateUserForm
+                  EmpId={EmpId}
                   employeeget={employeeget}
                   visisbleUpEmp={visisbleUpEmp}
                   setVisibleUpEmphandler={setVisibleUpEmp}

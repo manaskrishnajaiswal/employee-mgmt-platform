@@ -5,6 +5,7 @@ const getSchemaFromData = async (data) => {
   const schemaFields = {};
   for (const [key, value] of Object.entries(data)) {
     const valueType = typeof value;
+    // console.log(valueType);
     if (
       (valueType === "object" && value instanceof Date) ||
       moment(value, "YYYY-MM-DD", true).isValid()
