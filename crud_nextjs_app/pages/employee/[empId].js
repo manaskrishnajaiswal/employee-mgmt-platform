@@ -15,6 +15,7 @@ import {
 } from "@/frontend/redux/constants/employeeConstants";
 import ViewUserForm from "@/frontend/components/ViewUserForm";
 import Link from "next/link";
+import AddNewUserData from "@/frontend/components/AddNewUserData";
 
 const EmpInfo = () => {
   const router = useRouter();
@@ -134,6 +135,21 @@ const EmpInfo = () => {
             <div className="container mx-auto py-5 border-b">
               {employeeget && EmpId && (
                 <UpdateUserForm
+                  EmpId={EmpId}
+                  employeeget={employeeget}
+                  visisbleUpEmp={visisbleUpEmp}
+                  setVisibleUpEmphandler={setVisibleUpEmp}
+                />
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
+          {/* collapsable form */}
+          {visibleAddNewEmpData ? (
+            <div className="container mx-auto py-5 border-b">
+              {employeeget && EmpId && (
+                <AddNewUserData
                   EmpId={EmpId}
                   employeeget={employeeget}
                   visisbleUpEmp={visisbleUpEmp}
