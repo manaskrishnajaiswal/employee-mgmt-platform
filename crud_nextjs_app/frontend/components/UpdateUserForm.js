@@ -131,7 +131,7 @@ const UpdateUserForm = ({
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => addEmpIdForDel(key)}
-                      className=" hover:text-red-500 py-2 px-4"
+                      className=" hover:text-red-600 py-2 px-4"
                     >
                       <AiOutlineDelete size={40}></AiOutlineDelete>
                     </div>
@@ -173,7 +173,7 @@ const UpdateUserForm = ({
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => addEmpIdForDel(key)}
-                      className=" hover:text-red-500 py-2 px-4"
+                      className=" hover:text-red-600 py-2 px-4"
                     >
                       <AiOutlineDelete size={40}></AiOutlineDelete>
                     </div>
@@ -216,7 +216,7 @@ const UpdateUserForm = ({
                     <div
                       style={{ cursor: "pointer" }}
                       onClick={() => addEmpIdForDel(key)}
-                      className=" hover:text-red-500 py-2 px-4"
+                      className=" hover:text-red-600 py-2 px-4"
                     >
                       <AiOutlineDelete size={40}></AiOutlineDelete>
                     </div>
