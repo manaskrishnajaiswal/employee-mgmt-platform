@@ -17,6 +17,8 @@ import ViewUserForm from "@/frontend/components/ViewUserForm";
 import Link from "next/link";
 import AddNewUserData from "@/frontend/components/AddNewUserData";
 import ColumnNameType from "@/frontend/components/ColumnNameType";
+import ColumnData from "@/frontend/components/ColumnData";
+import OutputForm from "@/frontend/components/OutputForm";
 
 const EmpInfo = () => {
   const router = useRouter();
@@ -28,9 +30,10 @@ const EmpInfo = () => {
   const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
   const [columnName, setColumnName] = useState("");
   const [columnData, setColumnData] = useState("");
-  const [columnType, setColumnType] = useState("");
+  const [columnType, setColumnType] = useState("Number");
+  const [outputForm, setOutputForm] = useState([]);
 
-  console.log(columnName, columnType);
+  console.log(outputForm, columnData, columnName, columnType);
   const employeeGet = useSelector((state) => state.employeeGet);
   const {
     loading: loadingemployeeget,
@@ -157,14 +160,32 @@ const EmpInfo = () => {
                 setColumnName={setColumnName}
                 setColumnType={setColumnType}
               />
-              {employeeget && EmpId && (
+              <ColumnData
+                columnData={columnData}
+                setColumnData={setColumnData}
+                columnName={columnName}
+                setColumnName={setColumnName}
+                columnType={columnType}
+                outputForm={outputForm}
+                setOutputForm={setOutputForm}
+              />
+              {outputForm.length !== 0 && (
+                <OutputForm
+                  EmpId={EmpId}
+                  outputForm={outputForm}
+                  setOutputForm={setOutputForm}
+                  visibleAddNewEmpData={visibleAddNewEmpData}
+                  setVisibleAddNewEmpData={setVisibleAddNewEmpData}
+                />
+              )}
+              {/* {employeeget && EmpId && (
                 <AddNewUserData
                   EmpId={EmpId}
                   employeeget={employeeget}
                   visisbleUpEmp={visisbleUpEmp}
                   setVisibleUpEmphandler={setVisibleUpEmp}
                 />
-              )}
+              )} */}
             </div>
           ) : (
             <></>
