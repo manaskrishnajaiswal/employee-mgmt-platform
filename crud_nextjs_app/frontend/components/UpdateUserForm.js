@@ -26,7 +26,11 @@ const UpdateUserForm = ({
   };
   const employeeUpdateSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(employeeUpdateAction(EmpId, customDataUpdate));
+    const model = {
+      customDataUpdate: customDataUpdate,
+      itemsMarkedForDel: itemsMarkedForDel,
+    };
+    dispatch(employeeUpdateAction(EmpId, model));
     setVisibleUpEmphandler("");
   };
   const addEmpIdForDel = (key) => {

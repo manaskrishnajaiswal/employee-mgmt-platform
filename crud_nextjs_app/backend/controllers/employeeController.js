@@ -1,4 +1,5 @@
 import moment from "moment";
+import _ from "lodash";
 import getSchemaFromData from "../config/lib/getSchemaFromData";
 import Employee from "../models/employeeModel";
 
@@ -114,7 +115,14 @@ export async function getEmployeeData(req, res) {
 export async function putEmployeeData(req, res) {
   try {
     const { EmpId } = req.query;
-    const formData = req.body;
+    const formData = req.body.customDataUpdate || {};
+    const markedForDelete = req.body.itemsMarkedForDel || {};
+    const unsetObject = {};
+    if (!_.isEmpty(markedForDelete)) {
+      for (const key of markedForDelete) {
+        unsetObject[key] = 1;
+      }
+    }
     const customData = await Employee.findById(EmpId);
     if (!customData) {
       return res.status(404).json({ message: "customData not found" });
@@ -134,9 +142,14 @@ export async function putEmployeeData(req, res) {
       updatedData,
       { new: true }
     );
+    const unsetCustomData = await Employee.findByIdAndUpdate(
+      EmpId,
+      { $unset: unsetObject },
+      { new: true }
+    );
     res.status(200).json({
       message: "User updated successfully",
-      data: updatedCustomData,
+      data: unsetCustomData,
     });
   } catch (error) {
     res.status(404).json({ error: "Error While Updating the Data...!" });

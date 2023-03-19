@@ -24,7 +24,8 @@ const AddNewUserData = ({
   };
   const employeeUpdateSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(employeeUpdateAction(EmpId, customDataUpdate));
+    let model = { customDataUpdate: customDataUpdate };
+    dispatch(employeeUpdateAction(EmpId, model));
     setVisibleUpEmphandler("");
   };
   return (

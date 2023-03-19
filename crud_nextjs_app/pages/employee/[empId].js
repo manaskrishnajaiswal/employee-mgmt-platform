@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateUserForm from "@/frontend/components/UpdateUserForm";
 import {
+  EMPLOYEES_GET_RESET,
   EMPLOYEE_GET_RESET,
   EMPLOYEE_UPDATE_RESET,
 } from "@/frontend/redux/constants/employeeConstants";
@@ -77,6 +78,7 @@ const EmpInfo = () => {
     EmpId = "";
     setEmployeeGet(true);
     dispatch({ type: EMPLOYEE_GET_RESET });
+    dispatch({ type: EMPLOYEES_GET_RESET });
   };
 
   return (

@@ -23,7 +23,8 @@ const OutputForm = ({
     outputForm.forEach((item) => {
       formObject[item.colName] = item.colData;
     });
-    dispatch(employeeUpdateAction(EmpId, formObject));
+    let model = { customDataUpdate: formObject };
+    dispatch(employeeUpdateAction(EmpId, model));
     setOutputForm([]);
     setVisibleAddNewEmpData(!visibleAddNewEmpData);
   };
