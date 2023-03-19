@@ -20,7 +20,8 @@ const EmpInfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [EmpId, setEmpId] = useState(router.query.empId || "");
+  let EmpId = router.query.empId;
+  const [allowEmployeeGet, setEmployeeGet] = useState(false);
   const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
   const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
 
@@ -42,12 +43,15 @@ const EmpInfo = () => {
       dispatch({ type: EMPLOYEE_GET_RESET });
       dispatch({ type: EMPLOYEE_UPDATE_RESET });
     }
-    if (!employeeget) {
+    if (!employeeget && !allowEmployeeGet) {
+      console.log(EmpId);
       if (EmpId) {
         dispatch(emplpoyeeGetAction(EmpId));
+      } else {
+        console.log("logged");
       }
     }
-  }, [dispatch, EmpId, employeeget, successemployeeupdate]);
+  }, [dispatch, EmpId, employeeget, successemployeeupdate, allowEmployeeGet]);
   const updateEmployeehandler = () => {
     if (!visibleAddNewEmpData) {
       setVisibleUpEmp(!visisbleUpEmp);
@@ -63,7 +67,8 @@ const EmpInfo = () => {
     }
   };
   const backButtonHandler = () => {
-    setEmpId("");
+    EmpId = "";
+    setEmployeeGet(true);
     dispatch({ type: EMPLOYEE_GET_RESET });
   };
 
