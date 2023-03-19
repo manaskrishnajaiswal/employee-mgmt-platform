@@ -9,7 +9,7 @@ const ViewUserForm = ({ EmpId, setVisibleUpEmphandler, employeeget }) => {
   });
 
   return (
-    <div className="bg-yellow-200">
+    <div className="bg-yellow-200 rounded-lg border-yellow-500 border-2 p-4">
       <Form className="grid lg:grid-cols-4 w-4/8 gap-4">
         {Object.keys(customDataUpdate).map((key, index) => (
           <div className="mx-auto my-4" key={index}>
@@ -18,13 +18,13 @@ const ViewUserForm = ({ EmpId, setVisibleUpEmphandler, employeeget }) => {
               key !== "createdAt" &&
               moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
                 <>
-                  <Form.Group>
+                  <Form.Group className="rounded-lg border-yellow-500 border-2 p-4">
                     <Form.Label>
                       <strong>{key}</strong>
                     </Form.Label>
                     <br></br>
                     <Form.Control
-                      className="px-2 py-2"
+                      className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
                       type="Date"
                       placeholder={`Enter ${key}`}
                       value={customDataUpdate[key]}
@@ -38,13 +38,13 @@ const ViewUserForm = ({ EmpId, setVisibleUpEmphandler, employeeget }) => {
               key !== "__v" &&
               key !== "createdAt" &&
               typeof customDataUpdate[key] === "number" && (
-                <Form.Group>
+                <Form.Group className="rounded-lg border-yellow-500 border-2 p-4">
                   <Form.Label>
                     <strong>{key}</strong>
                   </Form.Label>
                   <br></br>
                   <Form.Control
-                    className="px-2 py-2"
+                    className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
                     type="Number"
                     placeholder={`Enter ${key}`}
                     value={customDataUpdate[key]}
@@ -59,13 +59,13 @@ const ViewUserForm = ({ EmpId, setVisibleUpEmphandler, employeeget }) => {
               typeof customDataUpdate[key] === "string" &&
               customDataUpdate[key].length <= 10 &&
               !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
-                <Form.Group>
+                <Form.Group className="rounded-lg border-yellow-500 border-2 p-4">
                   <Form.Label>
                     <strong>{key}</strong>
                   </Form.Label>
                   <br></br>
                   <Form.Control
-                    className="px-2 py-2"
+                    className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
                     type="Text"
                     placeholder={`Enter ${key}`}
                     value={customDataUpdate[key]}
@@ -80,13 +80,13 @@ const ViewUserForm = ({ EmpId, setVisibleUpEmphandler, employeeget }) => {
               typeof customDataUpdate[key] === "string" &&
               customDataUpdate[key].length > 10 &&
               !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
-                <Form.Group>
+                <Form.Group className="rounded-lg border-yellow-500 border-2 p-4">
                   <Form.Label>
                     <strong>{key}</strong>
                   </Form.Label>
                   <br></br>
                   <Form.Control
-                    className="px-2 py-2"
+                    className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
                     as="textarea"
                     rows={3}
                     placeholder={`Enter ${key}`}
