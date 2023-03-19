@@ -3,6 +3,7 @@ import moment from "moment";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { employeeUpdateAction } from "../redux/actions/employeeActions";
 import { EMPLOYEE_GET_RESET } from "../redux/constants/employeeConstants";
@@ -17,6 +18,7 @@ const UpdateUserForm = ({
   const [customDataUpdate, setCustomDataUpdate] = useState({
     ...employeeget,
   });
+  const [itemsMarkedForDel, setItemsMarkedForDel] = useState([]);
 
   const handleUpdateDataChange = (key, value) => {
     const updatedOutputForm = { ...customDataUpdate }; // create a shallow copy of the original object
@@ -27,6 +29,20 @@ const UpdateUserForm = ({
     dispatch(employeeUpdateAction(EmpId, customDataUpdate));
     setVisibleUpEmphandler("");
   };
+  const addEmpIdForDel = (key) => {
+    console.log(key);
+    if (itemsMarkedForDel.includes(key)) {
+      let index = itemsMarkedForDel.indexOf(key);
+      setItemsMarkedForDel((prevItems) => {
+        const updatedItems = [...prevItems];
+        updatedItems.splice(index, 1);
+        return updatedItems;
+      });
+    } else {
+      setItemsMarkedForDel((prevItems) => [...prevItems, key]);
+    }
+  };
+  console.log(itemsMarkedForDel);
   return (
     <div className="bg-gray-200">
       <Form
@@ -40,22 +56,38 @@ const UpdateUserForm = ({
               key !== "createdAt" &&
               moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
                 <>
-                  <Form.Group>
-                    <Form.Label>
-                      <strong>{key}</strong>
-                    </Form.Label>
-                    <br></br>
-                    <Form.Control
-                      className="px-2 py-2"
-                      type="Date"
-                      placeholder={`Enter ${key}`}
-                      value={customDataUpdate[key]}
-                      onChange={(event) =>
-                        handleUpdateDataChange(key, event.target.value)
-                      }
-                      required
-                      autoComplete="none"
-                    ></Form.Control>
+                  <Form.Group
+                    style={{
+                      backgroundColor: itemsMarkedForDel.includes(key)
+                        ? "#E94E3E"
+                        : "",
+                    }}
+                    className="flex rounded-lg border-yellow-500 border-2 p-4"
+                  >
+                    <div>
+                      <Form.Label>
+                        <strong>{key}</strong>
+                      </Form.Label>
+                      <br></br>
+                      <Form.Control
+                        className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
+                        type="Date"
+                        placeholder={`Enter ${key}`}
+                        value={customDataUpdate[key]}
+                        onChange={(event) =>
+                          handleUpdateDataChange(key, event.target.value)
+                        }
+                        required
+                        autoComplete="none"
+                      ></Form.Control>
+                    </div>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => addEmpIdForDel(key)}
+                      className="hover:text-red-600 py-2 px-4"
+                    >
+                      <AiOutlineDelete size={40}></AiOutlineDelete>
+                    </div>
                   </Form.Group>
                 </>
               )}
@@ -63,23 +95,44 @@ const UpdateUserForm = ({
               key !== "__v" &&
               key !== "createdAt" &&
               typeof customDataUpdate[key] === "number" && (
-                <Form.Group>
-                  <Form.Label>
-                    <strong>{key}</strong>
-                  </Form.Label>
-                  <br></br>
-                  <Form.Control
-                    className="px-2 py-2"
-                    type="Number"
-                    placeholder={`Enter ${key}`}
-                    value={customDataUpdate[key]}
-                    onChange={(event) =>
-                      handleUpdateDataChange(key, Number(event.target.value))
-                    }
-                    required
-                    autoComplete="none"
-                  ></Form.Control>
-                </Form.Group>
+                <>
+                  <Form.Group
+                    style={{
+                      backgroundColor: itemsMarkedForDel.includes(key)
+                        ? "#E94E3E"
+                        : "",
+                    }}
+                    className="flex rounded-lg border-yellow-500 border-2 p-4"
+                  >
+                    <div>
+                      <Form.Label>
+                        <strong>{key}</strong>
+                      </Form.Label>
+                      <br></br>
+                      <Form.Control
+                        className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
+                        type="Number"
+                        placeholder={`Enter ${key}`}
+                        value={customDataUpdate[key]}
+                        onChange={(event) =>
+                          handleUpdateDataChange(
+                            key,
+                            Number(event.target.value)
+                          )
+                        }
+                        required
+                        autoComplete="none"
+                      ></Form.Control>
+                    </div>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => addEmpIdForDel(key)}
+                      className=" hover:text-red-500 py-2 px-4"
+                    >
+                      <AiOutlineDelete size={40}></AiOutlineDelete>
+                    </div>
+                  </Form.Group>
+                </>
               )}
             {key !== "_id" &&
               key !== "__v" &&
@@ -87,23 +140,41 @@ const UpdateUserForm = ({
               typeof customDataUpdate[key] === "string" &&
               customDataUpdate[key].length <= 10 &&
               !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
-                <Form.Group>
-                  <Form.Label>
-                    <strong>{key}</strong>
-                  </Form.Label>
-                  <br></br>
-                  <Form.Control
-                    className="px-2 py-2"
-                    type="Text"
-                    placeholder={`Enter ${key}`}
-                    value={customDataUpdate[key]}
-                    onChange={(event) =>
-                      handleUpdateDataChange(key, event.target.value)
-                    }
-                    required
-                    autoComplete="none"
-                  ></Form.Control>
-                </Form.Group>
+                <>
+                  <Form.Group
+                    style={{
+                      backgroundColor: itemsMarkedForDel.includes(key)
+                        ? "#E94E3E"
+                        : "",
+                    }}
+                    className="flex rounded-lg border-yellow-500 border-2 p-4"
+                  >
+                    <div>
+                      <Form.Label>
+                        <strong>{key}</strong>
+                      </Form.Label>
+                      <br></br>
+                      <Form.Control
+                        className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
+                        type="Text"
+                        placeholder={`Enter ${key}`}
+                        value={customDataUpdate[key]}
+                        onChange={(event) =>
+                          handleUpdateDataChange(key, event.target.value)
+                        }
+                        required
+                        autoComplete="none"
+                      ></Form.Control>
+                    </div>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => addEmpIdForDel(key)}
+                      className=" hover:text-red-500 py-2 px-4"
+                    >
+                      <AiOutlineDelete size={40}></AiOutlineDelete>
+                    </div>
+                  </Form.Group>
+                </>
               )}
             {key !== "_id" &&
               key !== "__v" &&
@@ -111,24 +182,42 @@ const UpdateUserForm = ({
               typeof customDataUpdate[key] === "string" &&
               customDataUpdate[key].length > 10 &&
               !moment(customDataUpdate[key], "YYYY-MM-DD", true).isValid() && (
-                <Form.Group>
-                  <Form.Label>
-                    <strong>{key}</strong>
-                  </Form.Label>
-                  <br></br>
-                  <Form.Control
-                    className="px-2 py-2"
-                    as="textarea"
-                    rows={3}
-                    placeholder={`Enter ${key}`}
-                    value={customDataUpdate[key]}
-                    onChange={(event) =>
-                      handleUpdateDataChange(key, event.target.value)
-                    }
-                    required
-                    autoComplete="none"
-                  ></Form.Control>
-                </Form.Group>
+                <>
+                  <Form.Group
+                    style={{
+                      backgroundColor: itemsMarkedForDel.includes(key)
+                        ? "#E94E3E"
+                        : "",
+                    }}
+                    className="flex rounded-lg border-yellow-500 border-2 p-4"
+                  >
+                    <div>
+                      <Form.Label>
+                        <strong>{key}</strong>
+                      </Form.Label>
+                      <br></br>
+                      <Form.Control
+                        className="px-2 py-2 rounded-lg border-yellow-500 border-2 p-4"
+                        as="textarea"
+                        rows={3}
+                        placeholder={`Enter ${key}`}
+                        value={customDataUpdate[key]}
+                        onChange={(event) =>
+                          handleUpdateDataChange(key, event.target.value)
+                        }
+                        required
+                        autoComplete="none"
+                      ></Form.Control>
+                    </div>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={() => addEmpIdForDel(key)}
+                      className=" hover:text-red-500 py-2 px-4"
+                    >
+                      <AiOutlineDelete size={40}></AiOutlineDelete>
+                    </div>
+                  </Form.Group>
+                </>
               )}
           </div>
         ))}

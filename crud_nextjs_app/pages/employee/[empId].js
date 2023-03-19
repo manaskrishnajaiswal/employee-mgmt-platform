@@ -33,7 +33,6 @@ const EmpInfo = () => {
   const [columnType, setColumnType] = useState("Number");
   const [outputForm, setOutputForm] = useState([]);
 
-  console.log(outputForm, columnData, columnName, columnType);
   const employeeGet = useSelector((state) => state.employeeGet);
   const {
     loading: loadingemployeeget,
