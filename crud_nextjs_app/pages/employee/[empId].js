@@ -16,7 +16,6 @@ import {
 } from "@/frontend/redux/constants/employeeConstants";
 import ViewUserForm from "@/frontend/components/ViewUserForm";
 import Link from "next/link";
-import AddNewUserData from "@/frontend/components/AddNewUserData";
 import ColumnNameType from "@/frontend/components/ColumnNameType";
 import ColumnData from "@/frontend/components/ColumnData";
 import OutputForm from "@/frontend/components/OutputForm";
@@ -179,14 +178,6 @@ const EmpInfo = () => {
                   setVisibleAddNewEmpData={setVisibleAddNewEmpData}
                 />
               )}
-              {/* {employeeget && EmpId && (
-                <AddNewUserData
-                  EmpId={EmpId}
-                  employeeget={employeeget}
-                  visisbleUpEmp={visisbleUpEmp}
-                  setVisibleUpEmphandler={setVisibleUpEmp}
-                />
-              )} */}
             </div>
           ) : (
             <></>
