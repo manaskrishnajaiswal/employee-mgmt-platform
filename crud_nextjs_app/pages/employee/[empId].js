@@ -1,13 +1,45 @@
 import { BiEdit, BiTrashAlt, BiUserCircle } from "react-icons/bi";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { emplpoyeeGetAction } from "@/frontend/redux/actions/employeeActions";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EmpInfo = () => {
+  const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
+  const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const EmpId = router.query.empId;
-  console.log(EmpId);
-  const updateEmployeehandler = () => {};
+
+  const employeeGet = useSelector((state) => state.employeeGet);
+  const {
+    loading: loadingemployeeget,
+    error: erroremployeeget,
+    employeeget,
+  } = employeeGet;
+  useEffect(() => {
+    if (EmpId) {
+      dispatch(emplpoyeeGetAction(EmpId));
+    }
+  }, [dispatch, EmpId]);
+  const updateEmployeehandler = () => {
+    if (!visibleAddNewEmpData) {
+      setVisibleUpEmp(!visisbleUpEmp);
+    } else {
+      toast.error("Add New Emp Data in Progress...");
+    }
+  };
+  const addNewEmployeeDatahandler = () => {
+    if (!visisbleUpEmp) {
+      setVisibleAddNewEmpData(!visibleAddNewEmpData);
+    } else {
+      toast.error("Update Action in Progress...");
+    }
+  };
   return (
     <>
       <section>
@@ -23,6 +55,7 @@ const EmpInfo = () => {
             referrerpolicy="no-referrer"
           />
         </Head>
+        <ToastContainer position="bottom-right" />
         <main className="py-5">
           <h1 className="text-xl md:text-5xl text-center font-bold py-10">
             Employee Info
@@ -34,6 +67,17 @@ const EmpInfo = () => {
                 className="flex bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
               >
                 Update Employee{" "}
+                <span className="px-1">
+                  <BiEdit size={23}></BiEdit>
+                </span>
+              </button>
+            </div>
+            <div className="right flex gap-3">
+              <button
+                onClick={addNewEmployeeDatahandler}
+                className="flex bg-yellow-400 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
+              >
+                Add New Employee Data{" "}
                 <span className="px-1">
                   <BiEdit size={23}></BiEdit>
                 </span>

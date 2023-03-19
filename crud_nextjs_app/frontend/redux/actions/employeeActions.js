@@ -9,6 +9,9 @@ import {
   EMPLOYEE_DELETE_FAIL,
   EMPLOYEE_DELETE_REQUEST,
   EMPLOYEE_DELETE_SUCCESS,
+  EMPLOYEE_GET_FAIL,
+  EMPLOYEE_GET_REQUEST,
+  EMPLOYEE_GET_SUCCESS,
 } from "../constants/employeeConstants";
 
 // GET /api/employee -> Get all employee in the company
@@ -31,6 +34,34 @@ export const employeesGetAction = () => async (dispatch) => {
     // console.log(error);
     dispatch({
       type: EMPLOYEES_GET_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// GET /api/employee/EmpId -> get data of a employee
+// Get custom data from DB
+export const emplpoyeeGetAction = (empId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: EMPLOYEE_GET_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.get(`/api/employee/${empId}`, config);
+    dispatch({
+      type: EMPLOYEE_GET_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: EMPLOYEE_GET_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
