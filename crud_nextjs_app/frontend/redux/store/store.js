@@ -6,6 +6,7 @@ import {
   employeeCreateReducer,
   employeeDeleteReducer,
   employeeGetReducer,
+  employeeIdReducer,
   employeeUpdateReducer,
   employeesGetReducer,
 } from "../reducers/employeeReducers";
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   employeeDelete: employeeDeleteReducer,
   employeeGet: employeeGetReducer,
   employeeUpdate: employeeUpdateReducer,
+  employeeId: employeeIdReducer,
 });
 
 export const store = createStore(reducers, bindMiddlware([thunkMiddleware]));

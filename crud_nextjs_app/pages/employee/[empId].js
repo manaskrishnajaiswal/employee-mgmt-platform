@@ -1,5 +1,6 @@
 import { BiEdit, BiTrashAlt, BiUserCircle, BiArrowBack } from "react-icons/bi";
 import Head from "next/head";
+import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,7 +66,7 @@ const EmpInfo = () => {
     setEmpId("");
     dispatch({ type: EMPLOYEE_GET_RESET });
   };
-  console.log(EmpId);
+
   return (
     <>
       <section>

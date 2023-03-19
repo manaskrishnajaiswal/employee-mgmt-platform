@@ -15,11 +15,24 @@ import {
   EMPLOYEE_GET_REQUEST,
   EMPLOYEE_GET_RESET,
   EMPLOYEE_GET_SUCCESS,
+  EMPLOYEE_ID,
+  EMPLOYEE_ID_RESET,
   EMPLOYEE_UPDATE_FAIL,
   EMPLOYEE_UPDATE_REQUEST,
   EMPLOYEE_UPDATE_RESET,
   EMPLOYEE_UPDATE_SUCCESS,
 } from "../constants/employeeConstants";
+
+export const employeeIdReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EMPLOYEE_ID:
+      return { success: true, employeeid: action.payload };
+    case EMPLOYEE_ID_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
 
 export const employeeCreateReducer = (state = {}, action) => {
   switch (action.type) {

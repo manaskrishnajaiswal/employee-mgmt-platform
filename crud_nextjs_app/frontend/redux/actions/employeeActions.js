@@ -12,10 +12,23 @@ import {
   EMPLOYEE_GET_FAIL,
   EMPLOYEE_GET_REQUEST,
   EMPLOYEE_GET_SUCCESS,
+  EMPLOYEE_ID,
   EMPLOYEE_UPDATE_FAIL,
   EMPLOYEE_UPDATE_REQUEST,
   EMPLOYEE_UPDATE_SUCCESS,
 } from "../constants/employeeConstants";
+
+// set employee id
+export const employeeIdAction = (empId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: EMPLOYEE_ID,
+      payload: empId,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // GET /api/employee -> Get all employee in the company
 export const employeesGetAction = () => async (dispatch) => {

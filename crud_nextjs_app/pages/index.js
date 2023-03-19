@@ -56,8 +56,7 @@ export default function Home() {
   const cancelhandler = () => {
     setDeleteId("");
   };
-  console.log(visible);
-  console.log(deleteId);
+
   return (
     <>
       <section>

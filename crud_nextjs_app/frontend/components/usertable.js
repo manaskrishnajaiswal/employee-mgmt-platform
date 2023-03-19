@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import Loader from "./Loader";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { employeesGetAction } from "../redux/actions/employeeActions";
+import {
+  employeeIdAction,
+  employeesGetAction,
+} from "../redux/actions/employeeActions";
 
 export default function UserTable({ visible, setDeleteIdHandler }) {
   const dispatch = useDispatch();
@@ -84,7 +87,7 @@ function Tr({
     }
   };
   const empInfoHandler = () => {
-    // dispatch(updateAction(_id));
+    dispatch(employeeIdAction(_id));
     router.push(`/employee/${_id}`);
   };
 
