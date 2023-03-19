@@ -16,6 +16,7 @@ import {
 import ViewUserForm from "@/frontend/components/ViewUserForm";
 import Link from "next/link";
 import AddNewUserData from "@/frontend/components/AddNewUserData";
+import ColumnNameType from "@/frontend/components/ColumnNameType";
 
 const EmpInfo = () => {
   const router = useRouter();
@@ -25,7 +26,11 @@ const EmpInfo = () => {
   const [allowEmployeeGet, setEmployeeGet] = useState(false);
   const [visisbleUpEmp, setVisibleUpEmp] = useState(false);
   const [visibleAddNewEmpData, setVisibleAddNewEmpData] = useState(false);
+  const [columnName, setColumnName] = useState("");
+  const [columnData, setColumnData] = useState("");
+  const [columnType, setColumnType] = useState("");
 
+  console.log(columnName, columnType);
   const employeeGet = useSelector((state) => state.employeeGet);
   const {
     loading: loadingemployeeget,
@@ -45,7 +50,6 @@ const EmpInfo = () => {
       dispatch({ type: EMPLOYEE_UPDATE_RESET });
     }
     if (!employeeget && !allowEmployeeGet) {
-      console.log(EmpId);
       if (EmpId) {
         dispatch(emplpoyeeGetAction(EmpId));
       } else {
@@ -148,6 +152,11 @@ const EmpInfo = () => {
           {/* collapsable form */}
           {visibleAddNewEmpData ? (
             <div className="container mx-auto py-5 border-b">
+              <ColumnNameType
+                columnName={columnName}
+                setColumnName={setColumnName}
+                setColumnType={setColumnType}
+              />
               {employeeget && EmpId && (
                 <AddNewUserData
                   EmpId={EmpId}
