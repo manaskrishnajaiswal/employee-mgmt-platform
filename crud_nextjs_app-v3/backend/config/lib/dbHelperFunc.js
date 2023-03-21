@@ -4,7 +4,7 @@ import connectMongo from "../database/conn";
 // create a model
 export async function createDynamicModel(modelName, schemaDefinition) {
   const conn = await connectMongo();
-  const schema = new mongoose.Schema(schemaDefinition);
+  const schema = new mongoose.Schema(schemaDefinition, { strict: false });
   const Model = conn.model(modelName, schema);
   return Model;
 }

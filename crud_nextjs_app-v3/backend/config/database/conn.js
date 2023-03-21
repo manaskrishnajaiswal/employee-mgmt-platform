@@ -7,6 +7,7 @@ const connectMongo = async () => {
 
     if (connection.readyState == 1) {
       console.log("Database Connected");
+      return connection;
     }
   } catch (errors) {
     return Promise.reject(errors);
