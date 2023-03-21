@@ -79,12 +79,21 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
 
   const createDBHandler = (e) => {
     e.preventDefault();
+    const schemaDefinition = {
+      modelname: "Product",
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        price: { type: "number" },
+        quantity: { type: "integer" },
+      },
+    };
     const model = {
       modelName: dbName,
-      schemaDefinition: {},
+      schemaDefinition: JSON.stringify(schemaDefinition),
     };
-    if (dbName && model) {
-      dispatch(databaseCreateAction(model));
+    if (dbName) {
+      dispatch(databaseCreateAction(schemaDefinition));
     } else {
       toast.error("Database name is Empty...");
     }

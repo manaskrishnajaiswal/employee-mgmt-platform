@@ -4,9 +4,10 @@ import connectMongo from "../config/database/conn";
 
 // POST /api/modelApi/modelsReq -> create a model in the databse
 export async function createModel(req, res) {
-  const { modelName, schemaDefinition } = req.body;
+  console.log(req.body);
+  const schemaDefinition = req.body;
   try {
-    const Model = await createDynamicModel(modelName, schemaDefinition);
+    const Model = await createDynamicModel(schemaDefinition, { strict: false });
     res.status(200).json({
       message: `Model '${modelName}' created successfully!`,
       model: Model,
@@ -49,16 +50,19 @@ export async function getModel(req, res) {
         .json({ message: "Model name does not send through request!" });
     // Get a list of available models in the database
     const modelNames = await getModelNames();
+    const schema = mongoose.model(modelName).schema;
     if (modelNames.includes(modelName)) {
       res.status(200).json({
         message: `Model: ${modelName} found in database!`,
         model: modelName,
+        schema: schema,
         found: true,
       });
     } else {
       res.status(404).json({
         message: `Model: ${modelName} do not found!`,
         model: modelName,
+        schema: schema,
         found: false,
       });
     }

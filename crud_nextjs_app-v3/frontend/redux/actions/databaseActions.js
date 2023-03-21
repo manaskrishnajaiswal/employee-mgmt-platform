@@ -18,7 +18,7 @@ export const databaseCreateAction = (outputFormData) => async (dispatch) => {
     };
     const { data } = await axios.post(
       "/api/modelApi/modelsReq",
-      outputFormData,
+      JSON.stringify(outputFormData),
       config
     );
     dispatch({

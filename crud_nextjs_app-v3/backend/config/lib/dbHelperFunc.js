@@ -1,12 +1,20 @@
 import mongoose from "mongoose";
 import connectMongo from "../database/conn";
-
+import Ajv from "ajv";
 // create a model
-export async function createDynamicModel(modelName, schemaDefinition) {
-  const conn = await connectMongo();
-  const schema = new mongoose.Schema(schemaDefinition, { strict: false });
-  const Model = conn.model(modelName, schema);
-  return Model;
+export async function createDynamicModel(schemaDefinition) {
+  console.log(schemaDefinition);
+  await connectMongo();
+  const ajv = new Ajv(); // initialize AJV library
+  const validate = ajv.compile(schemaDefinition);
+  const isValid = validate({});
+  if (isValid) {
+    const schema = new mongoose.Schema(schemaDefinition);
+    const Model = mongoose.model(schemaDefinition.modelname, schema);
+    return Model;
+  } else {
+    console.log("Error occured during model creation");
+  }
 }
 
 // Get a list of available models in the database
