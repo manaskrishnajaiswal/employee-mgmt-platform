@@ -115,23 +115,31 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
                     required
                   />
                 </td>
-                <td className="px-16 py-2 flex justify-around gap-5">
-                  <button className="cursor" onClick={() => handleAddRow()}>
-                    <AiOutlinePlusSquare
-                      size={25}
-                      color="green"
-                    ></AiOutlinePlusSquare>
-                  </button>
-                  <button
-                    className="cursor"
-                    onClick={() => handleRemoveRow(row.id)}
-                  >
-                    <AiOutlineMinusSquare
-                      size={25}
-                      color="red"
-                    ></AiOutlineMinusSquare>
-                  </button>
-                </td>
+                {rows.length > 0 ? (
+                  <td className="px-16 py-2 flex justify-around gap-5">
+                    {rows.length === row.id && (
+                      <button className="cursor" onClick={() => handleAddRow()}>
+                        <AiOutlinePlusSquare
+                          size={25}
+                          color="green"
+                        ></AiOutlinePlusSquare>
+                      </button>
+                    )}
+                    {rows.length === row.id && row.id !== 1 && (
+                      <button
+                        className="cursor"
+                        onClick={() => handleRemoveRow(row.id)}
+                      >
+                        <AiOutlineMinusSquare
+                          size={25}
+                          color="red"
+                        ></AiOutlineMinusSquare>
+                      </button>
+                    )}
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>
@@ -142,7 +150,7 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
         size={40}
         color="red"
       ></AiOutlineArrowRight>
-      <div className="bg-white p-4 rounded-md shadow-md h-20">
+      <div className="bg-white p-4 rounded-md shadow-md h-20 my-10">
         <button className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800">
           Add Schema To DB
           <span className="px-1">
