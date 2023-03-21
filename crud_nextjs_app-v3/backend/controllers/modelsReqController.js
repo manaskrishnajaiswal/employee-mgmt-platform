@@ -58,6 +58,9 @@ export async function getModel(req, res) {
         message: `Model: ${modelName} found in database!`,
         model: modelName,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 47375aabb2a246ecfc347fe60075fecd230ed434
         schema: schema,
         found: true,
 =======
@@ -68,6 +71,9 @@ export async function getModel(req, res) {
         message: `Model: ${modelName} do not found!`,
         model: modelName,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 47375aabb2a246ecfc347fe60075fecd230ed434
         schema: schema,
         found: false,
 =======
