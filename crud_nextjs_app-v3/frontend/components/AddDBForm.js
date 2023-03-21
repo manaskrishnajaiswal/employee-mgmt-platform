@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   AiOutlinePlusSquare,
   AiOutlineMinusSquare,
@@ -6,13 +6,8 @@ import {
 } from "react-icons/ai";
 import { BsDatabaseAdd, BsDatabase } from "react-icons/bs";
 import Dropdown from "./Dropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { databaseCreateAction } from "../redux/actions/databaseActions";
-import { toast } from "react-toastify";
-import { DATABASE_CREATE_RESET } from "../redux/constants/databaseConstants";
 
 const AddDBForm = ({ visible, setVisiblehandler }) => {
-  const dispatch = useDispatch();
   const [dbName, setDbName] = useState("");
   const [columnType, setColumnType] = useState("Number");
   const [rows, setRows] = useState([
@@ -27,28 +22,6 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
     Option3_textarea: "Textarea",
     Option4_date: "Date",
   };
-  const databaseCreate = useSelector((state) => state.databaseCreate);
-  const {
-    loading: loadingdatabasecreate,
-    success: successdatabasecreate,
-    error: errordatabasecreate,
-    databasecreate,
-  } = databaseCreate;
-
-  useEffect(() => {
-    if (errordatabasecreate) {
-      toast.error(errordatabasecreate);
-      dispatch({ type: DATABASE_CREATE_RESET });
-      setDbName("");
-      setVisiblehandler(!visible);
-    }
-    if (successdatabasecreate) {
-      toast.success(databasecreate.message);
-      dispatch({ type: DATABASE_CREATE_RESET });
-      setDbName("");
-      setVisiblehandler(!visible);
-    }
-  }, [errordatabasecreate, successdatabasecreate, databasecreate]);
 
   const handleAddRow = () => {
     const newRow = {
@@ -76,20 +49,33 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
     });
     setRows(updatedRows);
   };
+<<<<<<< HEAD
 
   const createDBHandler = (e) => {
     e.preventDefault();
+    const schemaDefinition = {
+      modelname: "Product",
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        price: { type: "number" },
+        quantity: { type: "integer" },
+      },
+    };
     const model = {
       modelName: dbName,
-      schemaDefinition: {},
+      schemaDefinition: JSON.stringify(schemaDefinition),
     };
-    if (dbName && model) {
-      dispatch(databaseCreateAction(model));
+    if (dbName) {
+      dispatch(databaseCreateAction(schemaDefinition));
     } else {
       toast.error("Database name is Empty...");
     }
   };
 
+=======
+  console.log(rows);
+>>>>>>> parent of 15564ad (fixed some bug for models creation and error showing)
   return (
     <div className="flex justify-between ">
       <div className="bg-white p-4 rounded-md shadow-md h-32">
@@ -199,10 +185,7 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
         color="red"
       ></AiOutlineArrowRight>
       <div className="bg-white p-4 rounded-md shadow-md h-20 my-10">
-        <button
-          onClick={createDBHandler}
-          className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800"
-        >
+        <button className="flex bg-indigo-500 text-white px-4 py-2 border rounded-md hover:bg-grary-50 hover:border-indigo-500 hover:text-gray-800">
           Add Schema To DB
           <span className="px-1">
             <BsDatabaseAdd size={23}></BsDatabaseAdd>

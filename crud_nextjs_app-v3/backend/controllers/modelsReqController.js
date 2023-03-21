@@ -4,17 +4,19 @@ import connectMongo from "../config/database/conn";
 
 // POST /api/modelApi/modelsReq -> create a model in the databse
 export async function createModel(req, res) {
-  const { modelName, schemaDefinition } = req.body;
+  console.log(req.body);
+  const schemaDefinition = req.body;
   try {
-    const Model = await createDynamicModel(modelName, schemaDefinition);
+    const Model = await createDynamicModel(schemaDefinition, { strict: false });
     res.status(200).json({
       message: `Model '${modelName}' created successfully!`,
       model: Model,
     });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: `Failed to create model '${modelName}'`, error: error });
   }
 }
 
@@ -35,7 +37,8 @@ export async function getModels(req, res) {
       });
     }
   } catch (error) {
-    res.status(500).json({ message: `Failed to fetch models` });
+    console.error(error);
+    res.status(500).json({ message: `Failed to fetch models`, error: error });
   }
 }
 
@@ -49,17 +52,26 @@ export async function getModel(req, res) {
         .json({ message: "Model name does not send through request!" });
     // Get a list of available models in the database
     const modelNames = await getModelNames();
+    const schema = mongoose.model(modelName).schema;
     if (modelNames.includes(modelName)) {
       res.status(200).json({
         message: `Model: ${modelName} found in database!`,
         model: modelName,
+<<<<<<< HEAD
+        schema: schema,
         found: true,
+=======
+>>>>>>> parent of 15564ad (fixed some bug for models creation and error showing)
       });
     } else {
       res.status(404).json({
         message: `Model: ${modelName} do not found!`,
         model: modelName,
+<<<<<<< HEAD
+        schema: schema,
         found: false,
+=======
+>>>>>>> parent of 15564ad (fixed some bug for models creation and error showing)
       });
     }
   } catch (error) {
