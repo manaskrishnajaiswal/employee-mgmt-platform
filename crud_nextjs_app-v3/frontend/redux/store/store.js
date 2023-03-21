@@ -10,6 +10,7 @@ import {
   employeeUpdateReducer,
   employeesGetReducer,
 } from "../reducers/employeeReducers";
+import { databaseCreateReducer } from "../reducers/databaseReducers";
 
 const bindMiddlware = (middleware) => {
   if (process.env.NODE_ENV !== "production") {
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   employeeGet: employeeGetReducer,
   employeeUpdate: employeeUpdateReducer,
   employeeId: employeeIdReducer,
+  databaseCreate: databaseCreateReducer,
 });
 
 export const store = createStore(reducers, bindMiddlware([thunkMiddleware]));

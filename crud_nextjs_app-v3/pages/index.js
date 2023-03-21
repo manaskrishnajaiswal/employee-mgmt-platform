@@ -13,6 +13,9 @@ import {
   EMPLOYEE_GET_RESET,
 } from "@/frontend/redux/constants/employeeConstants";
 import AddDBForm from "@/frontend/components/AddDBForm";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Home() {
   const [deleteId, setDeleteId] = useState("");
@@ -74,6 +77,7 @@ export default function Home() {
             referrerpolicy="no-referrer"
           />
         </Head>
+        <ToastContainer position="bottom-right" />
         <main className="py-5">
           <h1 className="text-xl md:text-5xl text-center font-bold py-10 border-b">
             Database Management

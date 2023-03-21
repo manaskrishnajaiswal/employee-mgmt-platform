@@ -12,10 +12,9 @@ export async function createModel(req, res) {
       model: Model,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: `Failed to create model '${modelName}'`, error: error });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 }
 
@@ -36,8 +35,7 @@ export async function getModels(req, res) {
       });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: `Failed to fetch models`, error: error });
+    res.status(500).json({ message: `Failed to fetch models` });
   }
 }
 
@@ -55,11 +53,13 @@ export async function getModel(req, res) {
       res.status(200).json({
         message: `Model: ${modelName} found in database!`,
         model: modelName,
+        found: true,
       });
     } else {
       res.status(404).json({
         message: `Model: ${modelName} do not found!`,
         model: modelName,
+        found: false,
       });
     }
   } catch (error) {
