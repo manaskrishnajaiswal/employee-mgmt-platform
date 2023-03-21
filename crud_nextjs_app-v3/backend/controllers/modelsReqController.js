@@ -1,4 +1,6 @@
+import mongoose from "mongoose";
 import { createDynamicModel, getModelNames } from "../config/lib/dbHelperFunc";
+import connectMongo from "../config/database/conn";
 
 // POST /api/modelApi/modelsReq -> create a model in the databse
 export async function createModel(req, res) {
@@ -63,5 +65,44 @@ export async function getModel(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: `Failed to fetch models`, error: error });
+  }
+}
+
+// DEL /api/modelApi/modelsReq/[modelName] -> delete a model in database
+export async function deleteModel(req, res) {
+  const { modelName } = req.query;
+  try {
+    // Connect to the database
+    await connectMongo();
+    if (!modelName) {
+      return res
+        .status(400)
+        .json({ message: "Model name not provided in request!" });
+    }
+    const modelNames = await getModelNames();
+    if (!modelNames.includes(modelName)) {
+      return res.status(404).json({
+        message: `Model: ${modelName} do not found!`,
+        model: modelName,
+      });
+    }
+    // Drop the specified collection
+    const result = await mongoose.connection.db.dropCollection(modelName);
+    if (result) {
+      res.status(200).json({
+        message: `${modelName} collection dropped successfully!`,
+        result: result,
+      });
+    } else {
+      res.status(400).json({
+        message: `Error dropping collection- ${modelName}`,
+        result: result,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: `Failed to drop ${modelName} collection`, error });
   }
 }

@@ -11,7 +11,10 @@ export async function createDynamicModel(modelName, schemaDefinition) {
 
 // Get a list of available models in the database
 export async function getModelNames() {
-  const modelNames = mongoose.modelNames();
+  // const modelNames = mongoose.modelNames();
+  const collectionsCursor = await mongoose.connection.db.listCollections();
+  const collections = await collectionsCursor.toArray();
+  const modelNames = await collections.map((collection) => collection.name);
   return modelNames;
 }
 

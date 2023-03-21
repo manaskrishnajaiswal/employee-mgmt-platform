@@ -1,5 +1,8 @@
 import connectMongo from "@/backend/config/database/conn";
-import { getModel } from "@/backend/controllers/modelsReqController";
+import {
+  deleteModel,
+  getModel,
+} from "@/backend/controllers/modelsReqController";
 
 export default async function handler(req, res) {
   connectMongo().catch(() =>
@@ -9,17 +12,17 @@ export default async function handler(req, res) {
   const { method } = req;
   switch (method) {
     case "GET":
-      // GET /api/employee/EmpId -> get data of a employee
+      // GET /api/modelApi/modelsReq/[modeName] -> find a model in a database
       await getModel(req, res);
       break;
     // case "PUT":
     //   // PUT /api/employee/EmpId -> update data of a employee
     //   await putEmployeeData(req, res);
     //   break;
-    // case "DELETE":
-    //   // DEL /api/employee/EmpId -> delete employee data
-    //   await deleteEmployeeData(req, res);
-    //   break;
+    case "DELETE":
+      // DEL /api/modelApi/modelsReq/[modeName] -> delete a model from a database
+      await deleteModel(req, res);
+      break;
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowd`);
