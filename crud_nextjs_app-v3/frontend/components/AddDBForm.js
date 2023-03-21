@@ -5,20 +5,28 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 import { BsDatabaseAdd, BsDatabase } from "react-icons/bs";
+import Dropdown from "./Dropdown";
 
 const AddDBForm = ({ visible, setVisiblehandler }) => {
   const [dbName, setDbName] = useState("");
+  const [columnType, setColumnType] = useState("Number");
   const [rows, setRows] = useState([
     {
       id: 1,
-      fields: { schemaField: "", schemaType: "" },
+      fields: { schemaField: "", schemaType: "Number" },
     },
   ]);
+  const column_type_options = {
+    Option1_number: "Number",
+    Option2_string: "Text",
+    Option3_textarea: "Textarea",
+    Option4_date: "Date",
+  };
 
   const handleAddRow = () => {
     const newRow = {
       id: rows.length + 1,
-      fields: { schemaField: "", schemaType: "" },
+      fields: { schemaField: "", schemaType: "Number" },
     };
     setRows([...rows, newRow]);
   };
@@ -41,10 +49,7 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
     });
     setRows(updatedRows);
   };
-  if (rows.length === 0) {
-    setVisiblehandler(!visible);
-  }
-
+  console.log(rows);
   return (
     <div className="flex justify-between ">
       <div className="bg-white p-4 rounded-md shadow-md h-32">
@@ -87,11 +92,7 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
                     name="databaseName"
                     value={row.fields.schemaField}
                     onChange={(e) =>
-                      handleChange(
-                        row.id,
-                        e.target.value,
-                        row.fields.schemaType
-                      )
+                      handleChange(row.id, e.target.value, columnType)
                     }
                     className="border w-full px-5 py-3 focus:outline-none rounded-md"
                     placeholder="Enter Schema Field"
@@ -99,7 +100,7 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
                   />
                 </td>
                 <td>
-                  <input
+                  {/* <input
                     type="text"
                     name="databaseName"
                     value={row.fields.schemaType}
@@ -113,6 +114,13 @@ const AddDBForm = ({ visible, setVisiblehandler }) => {
                     className="border w-full px-5 py-3 focus:outline-none rounded-md"
                     placeholder="Enter Schema Type"
                     required
+                  /> */}
+                  <Dropdown
+                    column_type_options={column_type_options}
+                    setColumnType={setColumnType}
+                    handleChange={handleChange}
+                    schemaField={row.fields.schemaField}
+                    id={row.id}
                   />
                 </td>
                 {rows.length > 0 ? (

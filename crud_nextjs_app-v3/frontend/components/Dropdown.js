@@ -10,6 +10,7 @@ function Dropdown(props) {
   function handleOptionClick(option) {
     setSelectedOption(option);
     props.setColumnType(option);
+    props.handleChange(props.id, props.schemaField, option);
     setIsOpen(false);
   }
 
