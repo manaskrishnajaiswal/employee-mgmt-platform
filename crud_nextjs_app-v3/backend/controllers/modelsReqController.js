@@ -68,7 +68,7 @@ export async function getModel(req, res) {
   }
 }
 
-// DEL /api/modelApi/modelsReq/[modelName] -> delete a model in database
+// DEL /api/modelApi/modelsReq/[modelName] -> delete a model from database
 export async function deleteModel(req, res) {
   const { modelName } = req.query;
   try {
