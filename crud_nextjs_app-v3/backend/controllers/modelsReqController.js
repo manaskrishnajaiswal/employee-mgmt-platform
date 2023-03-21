@@ -1,5 +1,6 @@
 import { createDynamicModel, getModelNames } from "../config/lib/dbHelperFunc";
 
+// POST /api/modelApi/modelsReq -> create a model in the databse
 export async function createModel(req, res) {
   const { modelName, schemaDefinition } = req.body;
   try {
@@ -16,6 +17,7 @@ export async function createModel(req, res) {
   }
 }
 
+// GET /api/modelApi/modelsReq -> get list of availble models in database
 export async function getModels(req, res) {
   try {
     // Get a list of available models in the database
@@ -29,6 +31,33 @@ export async function getModels(req, res) {
       res.status(200).json({
         message: `Models list is Empty!`,
         models: modelNames,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: `Failed to fetch models`, error: error });
+  }
+}
+
+// GET /api/modelApi/modelsReq/[modelName] -> find a model in database
+export async function getModel(req, res) {
+  const { modelName } = req.query;
+  try {
+    if (!modelName)
+      return res
+        .status(400)
+        .json({ message: "Model name does not send through request!" });
+    // Get a list of available models in the database
+    const modelNames = await getModelNames();
+    if (modelNames.includes(modelName)) {
+      res.status(200).json({
+        message: `Model: ${modelName} found in database!`,
+        model: modelName,
+      });
+    } else {
+      res.status(404).json({
+        message: `Model: ${modelName} do not found!`,
+        model: modelName,
       });
     }
   } catch (error) {
